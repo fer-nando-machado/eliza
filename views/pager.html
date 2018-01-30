@@ -1,0 +1,25 @@
+<ul ng-if="vm.pager.hasPagination()" class="pagination pagination-sm">
+  <li ng-class="{disabled:vm.pager.isFirstPage()}">
+    <a ng-click="!vm.pager.isFirstPage() && vm.setPage(1)">
+      <span class="glyphicon glyphicon-fast-backward"></span>
+    </a>
+  </li>
+  <li ng-class="{disabled:vm.pager.isFirstPage()}">
+    <a ng-click="!vm.pager.isFirstPage() && vm.setPage(vm.pager.currentPage - 1)">
+      <span class="glyphicon glyphicon-step-backward"></span>
+    </a>
+  </li>
+  <li class="pagination-current disabled">
+    <span>{{vm.pager.currentPage}} / {{vm.pager.totalPages}}</span>
+  </li>
+  <li ng-class="{disabled:vm.pager.isLastPage()}">
+    <a ng-click="!vm.pager.isLastPage() && vm.setPage(vm.pager.currentPage + 1)">
+      <span class="glyphicon glyphicon-step-forward">
+    </a>
+  </li>
+  <li ng-class="{disabled:vm.pager.isLastPage()}">
+    <a ng-click="!vm.pager.isLastPage() && vm.setPage(vm.pager.totalPages)">
+      <span class="glyphicon glyphicon-fast-forward">
+    </a>
+  </li>
+</ul>

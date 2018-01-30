@@ -1,0 +1,102 @@
+<div ng-controller="relatorios as vm" ng-init="vm.initRelatorios()">
+  <div class="col-sm-4 col-md-4 col-lg-4 col-xs-4">
+    <form novalidate>
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading"><div class="panel-title">Relatório</div></div>
+          <div class="panel-body">
+            <div class="input-group">
+              <span class="input-group-addon">De</span>
+              <input type="date" class="form-control" ng-model="vm.query.startDate"
+                min="2000-01-01" max="{{utils.getInicioMaxLimit(vm.query.endDate) | date:'yyyy-MM-dd'}}" />
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">até</span>
+              <input type="date" class="form-control" ng-model="vm.query.endDate"
+                min="{{utils.getFimMinLimit(vm.query.startDate) | date:'yyyy-MM-dd'}}" max="3000-12-31" />
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Aluno</span>
+              <input type="text" class="form-control" value="Não há alunos cadastrados." ng-if="!vm.alunosOptions.length" disabled />
+              <span ng-dropdown-multiselect="true" options="vm.alunosOptions" selected-model="vm.alunosSelected" ng-if="vm.alunosOptions.length"
+                extra-settings="vm.singleSelectSettings" translation-texts="utils.i18nMultiSelect"></span>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Curso</span>
+              <input type="text" class="form-control" value="Não há cursos cadastrados." ng-if="!vm.cursosOptions.length" disabled />
+              <span ng-dropdown-multiselect="true" options="vm.cursosOptions" selected-model="vm.cursosSelected" ng-if="vm.cursosOptions.length"
+                extra-settings="vm.singleSelectSettings" translation-texts="utils.i18nMultiSelect"></span>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Meio</span>
+              <span ng-dropdown-multiselect="true" options="utils.meiosOptions" selected-model="vm.meiosSelected"
+                extra-settings="vm.singleSelectMeioSettings" translation-texts="utils.i18nMultiSelect"></span>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Recibo</span>
+              <input type="text" class="form-control" value="Não há usuários cadastrados." ng-if="!vm.usuariosOptions.length" disabled />
+              <span ng-dropdown-multiselect="true" options="vm.usuariosOptions" selected-model="vm.usuariosSelected" ng-if="vm.usuariosOptions.length"
+                extra-settings="vm.singleSelectSettings" translation-texts="utils.i18nMultiSelect"></span>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <button type="submit" class="btn btn-info pull-left" ng-click="vm.findPagamentos()">
+              <span class="glyphicon glyphicon-filter"></span> Filtrar
+            </button>
+            <button type="button" class="btn btn-default pull-right" ng-click="vm.resetQuery()">
+              <span class="glyphicon glyphicon-refresh"></span> Limpar
+            </button>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-sm-8 col-md-8 col-lg-8 col-xs-8">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+          <tr>
+            <th class="minimal-width no-wrap">Data</th>
+            <th>Aluno</th>
+            <th>Curso</th>
+            <th>Valor</th>
+            <th>Meio</th>
+            <th>Recibo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in vm.items">
+            <td class="minimal-width no-wrap">{{item.data | date:'dd/MM/yyyy HH:mm'}}</td>
+            <td><legacy legacy="!item.aluno.active" value="item.aluno.nome" /></td>
+            <td><legacy legacy="!item.curso.active" value="item.curso.nome" /></td>
+            <td class="minimal-width no-wrap">{{utils.getReais(item.valor)}}</td>
+            <td class="minimal-width no-wrap">{{utils.meiosOptions[item.meio].label}}</td>
+            <td><legacy legacy="!item.responsavel.active" value="item.responsavel.nome" /></td>
+          </tr>
+          <tr ng-if="!vm.items.length">
+            <td colspan="6">Nenhum registro encontrado.</td>
+          </tr>
+          <tr>
+            <td colspan="6" class="panel-footer panel-footer-no-create">
+              <table ng-if="vm.pagamentos.length" class="pagamento-info pull-left">
+                <tbody>
+                  <tr>
+                    <td class="text-right"><strong>Registros:</strong>&nbsp;</td>
+                    <td>{{vm.pagamentos.length}}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-right"><strong>Valor total:</strong>&nbsp;</td>
+                    <td>{{utils.getReais(vm.valorTotal)}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pager vm="vm" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

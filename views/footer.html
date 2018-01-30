@@ -1,0 +1,22 @@
+<div ng-controller="header as vm">
+  <nav class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="container-fluid">
+      <ul class="nav navbar-text">
+        <li>
+          <div ng-hide="alert.visible">
+            {{utils.getCurrentUser().login}}
+          </div>
+          <div ng-show="alert.visible" class="alert {{alert.type}}">
+            <span ng-bind-html="alert.message"></span>
+            <span class="alert-dismiss" ng-click="alert.dismiss()">&times;</span>
+          </div>
+        </li>
+      </ul>
+      <ul class="nav navbar-text navbar-right">
+        <a class="credits" ng-click="vm.go('credits')">
+          feito com <span class="glyphicon glyphicon-heart"></span> por Fernando Machado
+        </a>
+      </ul>
+    </div>
+  </nav>
+</div>

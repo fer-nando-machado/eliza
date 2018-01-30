@@ -1,0 +1,136 @@
+<div ng-controller="pagamentos as vm" ng-init="vm.initPagamentos()">
+  <div class="col-sm-4 col-md-4 col-lg-4 col-xs-4">
+    <form novalidate>
+      <div class="input-group clear">
+        <input type="text" class="form-control" ng-model="vm.query" />
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-default" ng-click="vm.findCursosByNome(vm.query)">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="panel panel-default">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th class="minimal-width no-wrap">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-clickable" ng-repeat="item in vm.items" ng-click="vm.createPagamento(item)">
+              <td>{{item.nome}}</td>
+              <td class="minimal-width no-wrap">{{utils.getCursoStatusLabel(item)}}</td>
+            </tr>
+            <tr ng-if="!vm.items.length">
+              <td colspan="2">Nenhum curso encontrado.</td>
+            </tr>
+            <tr>
+              <td colspan="2" class="panel-footer panel-footer-no-create">
+                <pager vm="vm" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-8 col-md-8 col-lg-8 col-xs-8">
+    <form name="form" ng-if="vm.pagamento" novalidate>
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading"><div class="panel-title">Pagamento</div></div>
+          <div class="panel-body">
+            <div class="input-group">
+              <span class="input-group-addon">Curso</span>
+              <input type="text" class="form-control" ng-model="vm.pagamento.curso.nome" disabled />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Aluno</span>
+              <input type="text" class="form-control" value="Não há alunos matriculados." ng-if="!vm.alunosOptions.length" disabled />
+              <span ng-dropdown-multiselect="true" options="vm.alunosOptions" selected-model="vm.alunosSelected" ng-if="vm.alunosOptions.length"
+                extra-settings="vm.singleSelectAlunoSettings" translation-texts="utils.i18nMultiSelect"></span>
+              <span class="input-group-addon" ng-messages="{'required':true}" ng-if="vm.alunosOptions.length && !vm.alunosSelected.length">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group" ng-if="vm.pagamento.aluno">
+              <span class="input-group-addon">Plano</span>
+              <input type="text" class="form-control" ng-model="vm.pagamento.aluno.curso.plano.label" disabled />
+            </div>
+
+            <div class="input-group" ng-if="vm.pagamento.aluno">
+              <span class="input-group-addon">Valor</span>
+              <input type="number" class="form-control" name="valor" ng-model="vm.pagamento.valor" required min="1"/>
+              <span class="input-group-addon" ng-messages="form.valor.$error" ng-if="form.valor.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group" ng-if="vm.pagamento.aluno">
+              <span class="input-group-addon">Meio</span>
+              <span ng-dropdown-multiselect="true" options="utils.meiosOptions" selected-model="vm.meiosSelected"
+                extra-settings="vm.singleSelectMeioSettings" translation-texts="utils.i18nMultiSelect"></span>
+              <span class="input-group-addon" ng-messages="{'required':true}" ng-if="!vm.meiosSelected.length">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Notas</span>
+              <textarea class="form-control" name="observacao" ng-model="vm.pagamento.observacao"></textarea>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <button type="submit" class="btn btn-success pull-left" ng-disabled="form.$invalid || !vm.alunosSelected.length || !vm.meiosSelected.length"
+              ng-click="vm.savePagamento(vm.pagamento)">
+              <span class="glyphicon glyphicon-ok"></span> Receber
+            </button>
+            <table ng-if="vm.pagamento.aluno.curso.plano.pagamentos.length" class="pagamento-info pull-right">
+              <tbody>
+                <tr>
+                  <td class="text-right"><strong>Pago:</strong>&nbsp;</td>
+                  <td>{{utils.getReais(vm.pagamento.aluno.curso.plano.valorPago)}}</td>
+                </tr>
+                <tr ng-if="vm.pagamento.aluno.curso.plano.valorRemanescente > 0">
+                  <td class="text-right"><strong>Restante:</strong>&nbsp;</td>
+                  <td>{{utils.getReais(vm.pagamento.aluno.curso.plano.valorRemanescente)}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive" ng-if="vm.pagamento.aluno.curso.plano.pagamentos.length">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <thead>
+            <tr>
+              <th class="minimal-width no-wrap">Data</th>
+              <th class="minimal-width no-wrap">Valor</th>
+              <th class="minimal-width no-wrap">Meio</th>
+              <th>Recibo</th>
+              <th>Notas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(i, pagamento) in vm.pagamento.aluno.curso.plano.pagamentos track by $index">
+              <td class="minimal-width no-wrap">{{pagamento.data | date:'dd/MM/yyyy HH:mm'}}</td>
+              <td class="minimal-width no-wrap">{{utils.getReais(pagamento.valor)}}</td>
+              <td class="minimal-width no-wrap">{{utils.meiosOptions[pagamento.meio].label}}</td>
+              <td><legacy legacy="!pagamento.responsavel.active" value="pagamento.responsavel.nome" /></td>
+              <td>{{pagamento.observacao}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+</div>

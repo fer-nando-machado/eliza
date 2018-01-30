@@ -1,0 +1,40 @@
+{
+  "name": "eliza",
+  "version": "1.0.0",
+  "description": "Eliza",
+  "productName": "Eliza",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/fernandomachado90/eliza",
+  "keywords": [
+    "Eliza"
+  ],
+  "author": "Fernando Machado",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "devtron": "^1.4.0",
+    "electron": "^1.6.10",
+    "electron-debug": "^1.1.0",
+    "electron-packager": "^8.7.1"
+  },
+  "dependencies": {
+    "angular": "^1.6.4",
+    "angular-formly": "^8.4.1",
+    "angular-messages": "^1.6.4",
+    "angular-route": "^1.6.4",
+    "angular-ui-bootstrap": "^2.5.0",
+    "angular-ui-utils": "^0.1.1",
+    "angularjs-dropdown-multiselect": "^2.0.0-beta.10",
+    "api-check": "^7.5.5",
+    "bootstrap": "^3.3.7",
+    "bootstrap-select": "^1.12.2",
+    "electron-context-menu": "^0.9.1",
+    "electron-debug": "^1.1.0",
+    "jquery": "^3.2.1",
+    "nedb": "^1.8.0",
+    "ng-mask": "^3.1.1",
+    "normalize-strings": "^1.1.0"
+  }
+}

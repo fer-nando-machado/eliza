@@ -1,0 +1,187 @@
+<div ng-controller="cursos as vm" ng-init="vm.initCursos()">
+  <div class="col-sm-4 col-md-4 col-lg-4 col-xs-4">
+
+    <form novalidate>
+      <div class="input-group clear">
+        <input type="text" class="form-control" ng-model="vm.query" />
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-default" ng-click="vm.findCursosByNome(vm.query)">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="panel panel-default">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th class="minimal-width no-wrap">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-clickable" ng-repeat="item in vm.items" ng-click="vm.findCursoById(item._id)">
+              <td>{{item.nome}}</td>
+              <td class="minimal-width no-wrap">{{utils.getCursoStatusLabel(item)}}</td>
+            </tr>
+            <tr ng-if="!vm.items.length">
+              <td colspan="2">Nenhum curso encontrado.</td>
+            </tr>
+            <tr>
+              <td colspan="2" class="panel-footer">
+                <button class="btn btn-primary" type="button" ng-click="vm.createCurso(vm.query)">
+                  <span class="glyphicon glyphicon-plus"></span> Criar
+                </button>
+                <pager vm="vm" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-8 col-md-8 col-lg-8 col-xs-8">
+    <form name="form" ng-if="vm.curso" novalidate>
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading"><div class="panel-title">Curso</div></div>
+          <div class="panel-body">
+            <div class="input-group">
+              <span class="input-group-addon">Nome</span>
+              <input type="text" class="form-control" name="nome" ng-model="vm.curso.nome" required />
+              <span class="input-group-addon" ng-messages="form.nome.$error" ng-if="form.nome.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Professores</span>
+              <input type="text" class="form-control" value="Não há professores cadastrados." ng-if="!vm.professoresOptions.length" disabled />
+              <span ng-dropdown-multiselect="true" options="vm.professoresOptions" selected-model="vm.professoresSelected" ng-if="vm.professoresOptions.length"
+                extra-settings="vm.professoresSettings" translation-texts="utils.i18nMultiSelect"></span>
+              <span class="input-group-addon" ng-messages="{'required':true}" ng-if="vm.professoresOptions.length && !vm.professoresSelected.length">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Data de início</span>
+              <input type="date" class="form-control" name="inicio" ng-model="vm.curso.inicio" ng-change="vm.calculateCargaTotal(vm.curso)"
+                min="2000-01-01" max="{{utils.getInicioMaxLimit(vm.curso.fim) | date:'yyyy-MM-dd'}}" required />
+              <span class="input-group-addon" ng-messages="form.inicio.$error" ng-if="form.inicio.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Data de término</span>
+              <input type="date" class="form-control" name="fim" ng-model="vm.curso.fim" ng-change="vm.calculateCargaTotal(vm.curso)"
+                min="{{utils.getFimMinLimit(vm.curso.inicio) | date:'yyyy-MM-dd'}}" max="3000-12-31" required />
+              <span class="input-group-addon" ng-messages="form.fim.$error" ng-if="form.fim.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Semana</span>
+              <div class="form-control">
+                <label class="checkbox-inline" ng-repeat="(i, dia) in vm.diasDaSemana track by $index">
+                  <input type="checkbox" ng-model="vm.curso.diasDaSemana[i]" ng-change="vm.calculateCargaTotal(vm.curso)" /> {{dia}}
+                </label>
+              </div>
+              <span class="input-group-addon" ng-messages="{'required':true}" ng-if="vm.isDiasDaSemanaInvalid(vm.curso.diasDaSemana)">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Horário</span>
+              <input type="time" class="form-control" name="horario" ng-model="vm.curso.horario" required />
+              <span class="input-group-addon" ng-messages="form.horario.$error" ng-if="form.horario.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Carga horária / dia</span>
+              <input type="number" class="form-control" name="cargaHoraria" ng-model="vm.curso.cargaHoraria" ng-change="vm.calculateCargaTotal(vm.curso)"
+                min="1" max="24" required />
+              <span class="input-group-addon" ng-messages="form.cargaHoraria.$error" ng-if="form.cargaHoraria.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Carga horária total</span>
+              <input type="number" class="form-control" name="cargaTotal" ng-model="vm.curso.cargaTotal"
+                min="1" required disabled />
+              <span class="input-group-addon" ng-messages="form.cargaTotal.$error" ng-if="form.cargaTotal.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Capacidade máxima</span>
+              <input type="number" class="form-control" name="capacidade" ng-model="vm.curso.capacidade"  min="1" required />
+              <span class="input-group-addon" ng-messages="form.capacidade.$error" ng-if="form.capacidade.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="panel panel-default panel-plano" ng-repeat="(i, plano) in vm.curso.planos track by $index">
+              <div class="panel-heading">
+                <div class="panel-title pull-left">
+                  Plano<span ng-if="vm.curso.planos.length > 1"> {{i+1}}</span><span ng-if="vm.curso.planos[i].parcelas && vm.curso.planos[i].valor">: {{utils.getPlanoLabel(vm.curso.planos[i], true)}}</span>
+                </div>
+                <div class="btn-group pull-right">
+                  <span ng-click="utils.removeElement(vm.curso.planos, i)" class="btn btn-default btn-sm" ng-if="vm.curso.planos.length > 1" title="Remover">
+                      <span class="glyphicon glyphicon-minus"></span>
+                  </span>
+                  <span ng-click="utils.addElement(vm.curso.planos, vm.newPlano())" class="btn btn-default btn-sm" ng-if="i+1 == vm.curso.planos.length && vm.curso.planos.length < 9" title="Adicionar">
+                      <span class="glyphicon glyphicon-plus"></span>
+                  </span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <div class="input-group">
+                  <span class="input-group-addon">Parcelas</span>
+                  <input type="number" class="form-control" name="planosParcelas{{$index}}"
+                    ng-model="vm.curso.planos[i].parcelas" min="1" max="99"/>
+                  <span class="input-group-addon" ng-messages="form['planosParcelas'+$index].$error" ng-if="form['planosParcelas'+$index].$invalid">
+                    <span ng-messages-include="views/messages.html"></span>
+                  </span>
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon">Valor</span>
+                  <input type="number" class="form-control" name="planosValor{{$index}}"
+                    ng-model="vm.curso.planos[i].valor" min="1"/>
+                  <span class="input-group-addon" ng-messages="form['planosValor'+$index].$error" ng-if="form['planosValor'+$index].$invalid">
+                    <span ng-messages-include="views/messages.html"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Notas</span>
+              <textarea class="form-control" name="observacao" ng-model="vm.curso.observacao"></textarea>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <button type="submit" class="btn btn-success" ng-disabled="form.$invalid || !vm.professoresSelected.length" ng-click="vm.saveCurso(vm.curso)">
+              <span class="glyphicon glyphicon-ok"></span> Salvar
+            </button>
+            <button type="button" class="btn btn-danger" ng-show="vm.curso._id" ng-click="vm.removeCurso(vm.curso)">
+              <span class="glyphicon glyphicon-remove"></span> Remover
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

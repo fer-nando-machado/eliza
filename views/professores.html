@@ -1,0 +1,159 @@
+<div ng-controller="professores as vm" ng-init="vm.initProfessores()">
+  <div class="col-sm-4 col-md-4 col-lg-4 col-xs-4">
+
+    <form novalidate>
+      <div class="input-group clear">
+        <input type="text" class="form-control" ng-model="vm.query" />
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-default" ng-click="vm.findProfessoresByNome(vm.query)">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="panel panel-default">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Professor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-clickable" ng-repeat="item in vm.items" ng-click="vm.findProfessorById(item._id)">
+              <td>{{item.nome}}</td>
+            </tr>
+            <tr ng-if="!vm.items.length">
+              <td>Nenhum professor encontrado.</td>
+            </tr>
+            <tr>
+              <td class="panel-footer">
+                <button class="btn btn-primary" type="button" ng-click="vm.createProfessor(vm.query)">
+                  <span class="glyphicon glyphicon-plus"></span> Criar
+                </button>
+                <pager vm="vm" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-8 col-md-8 col-lg-8 col-xs-8">
+    <form name="form" ng-if="vm.professor" novalidate>
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading"><div class="panel-title">Professor</div></div>
+          <div class="panel-body">
+            <div class="input-group">
+              <span class="input-group-addon">Nome</span>
+              <input type="text" class="form-control" name="nome" ng-model="vm.professor.nome" required />
+              <span class="input-group-addon" ng-messages="form.nome.$error" ng-if="form.nome.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Data de nascimento</span>
+              <input type="date" class="form-control" name="nascimento" ng-model="vm.professor.nascimento"
+                min="1900-01-01" max="{{utils.getNascimentoMaxLimit() | date:'yyyy-MM-dd'}}" required />
+              <span class="input-group-addon" ng-if="form.nascimento.$valid">
+                  {{vm.professor.nascimento | age}}
+              </span>
+              <span class="input-group-addon" ng-messages="form.nascimento.$error" ng-if="form.nascimento.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">RG</span>
+              <input type="text" class="form-control" name="rg" ng-model="vm.professor.rg" />
+              <span class="input-group-addon">Emissor</span>
+              <input type="text" class="form-control" name="emissor" ng-model="vm.professor.emissor" />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">CPF</span>
+              <input type="text" class="form-control" name="cpf" ng-model="vm.professor.cpf" mask="999.999.999-99" />
+              <span class="input-group-addon" ng-if="!vm.professor.cpf">somente números</span>
+              <span class="input-group-addon" ng-messages="form.cpf.$error" ng-if="form.cpf.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Endereço</span>
+              <input type="text" class="form-control" name="endereco" ng-model="vm.professor.endereco" />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Bairro</span>
+              <input type="text" class="form-control" name="bairro" ng-model="vm.professor.bairro" />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Cidade</span>
+              <input type="text" class="form-control" name="cidade" ng-model="vm.professor.cidade" />
+              <span class="input-group-addon">Estado</span>
+              <select class="form-control" name="estado" ng-model="vm.professor.estado">
+                <option ng-repeat="(i, estado) in utils.estados track by $index">{{estado}}</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">CEP</span>
+              <input type="text" class="form-control" name="cep" ng-model="vm.professor.cep" mask="99999-999" />
+              <span class="input-group-addon" ng-if="!vm.professor.cep">somente números</span>
+              <span class="input-group-addon" ng-messages="form.cep.$error" ng-if="form.cep.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group" ng-repeat="(i, telefone) in vm.professor.telefones track by $index">
+              <span class="input-group-addon">Telefone <span ng-if="vm.professor.telefones.length > 1">{{i+1}}</span></span>
+              <input type="text" class="form-control" name="telefones{{$index}}" ng-model="vm.professor.telefones[i]" mask="(99) 9?9999-9999" />
+              <span class="input-group-addon" ng-messages="form['telefones'+$index].$error" ng-if="form['telefones'+$index].$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+              <span ng-click="utils.removeElement(vm.professor.telefones, i)" class="input-group-addon btn btn-default" ng-if="vm.professor.telefones.length > 1" title="Remover">
+                  <span class="glyphicon glyphicon-minus"></span>
+              </span>
+              <span ng-click="utils.addElement(vm.professor.telefones, '')" class="input-group-addon btn btn-default" ng-if="i+1 == vm.professor.telefones.length && vm.professor.telefones.length < 9" title="Adicionar">
+                  <span class="glyphicon glyphicon-plus"></span>
+              </span>
+            </div>
+
+            <div class="input-group" ng-repeat="(i, email) in vm.professor.emails track by $index">
+              <span class="input-group-addon">E-mail <span ng-if="vm.professor.emails.length > 1">{{i+1}}</span></span>
+              <input type="email" class="form-control" name="emails{{$index}}" ng-model="vm.professor.emails[i]" />
+              <span class="input-group-addon" ng-messages="form['emails'+$index].$error" ng-if="form['emails'+$index].$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+              <span ng-click="utils.removeElement(vm.professor.emails, i)" class="input-group-addon btn btn-default" ng-if="vm.professor.emails.length > 1" title="Remover">
+                  <span class="glyphicon glyphicon-minus"></span>
+              </span>
+              <span ng-click="utils.addElement(vm.professor.emails, '')" class="input-group-addon btn btn-default" ng-if="i+1 == vm.professor.emails.length && vm.professor.emails.length < 9" title="Adicionar">
+                  <span class="glyphicon glyphicon-plus"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Notas</span>
+              <textarea class="form-control" name="observacao" ng-model="vm.professor.observacao"></textarea>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <button type="submit" class="btn btn-success" ng-disabled="form.$invalid" ng-click="vm.saveProfessor(vm.professor)">
+              <span class="glyphicon glyphicon-ok"></span> Salvar
+            </button>
+            <button type="button" class="btn btn-danger" ng-show="vm.professor._id" ng-click="vm.removeProfessor(vm.professor)">
+              <span class="glyphicon glyphicon-remove"></span> Remover
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

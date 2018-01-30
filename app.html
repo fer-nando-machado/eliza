@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR" ng-app="eliza" ng-cloak="">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Eliza</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <script>
+      const Datastore = require('nedb');
+      const Normalizer = require('normalize-strings');
+      require('jQuery');
+      require('angular');
+      require('angular-route');
+      require('angular-messages');
+      require('angular-ui-bootstrap');
+      require('angularjs-dropdown-multiselect');
+      require('ng-mask');
+      require('bootstrap');
+      require('./app.js');
+    </script>
+    <script src="js/angular-locale_pt-br.js"></script>
+    <div ng-include="'views/header.html'"></div>
+    <div class="container-fluid view">
+      <div class="row">
+          <div ng-view></div>
+      </div>
+    </div>
+    <div ng-include="'views/footer.html'"></div>
+  </body>
+</html>

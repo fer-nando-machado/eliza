@@ -1,0 +1,204 @@
+<div ng-controller="alunos as vm" ng-init="vm.initAlunos()">
+  <div class="col-sm-4 col-md-4 col-lg-4 col-xs-4">
+
+    <form novalidate>
+      <div class="input-group clear">
+        <input type="text" class="form-control" ng-model="vm.query" />
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-default" ng-click="vm.findAlunosByNome(vm.query)">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="panel panel-default">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Nome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-clickable" ng-repeat="item in vm.items" ng-click="vm.findAlunoById(item._id)">
+              <td>{{item.nome}}</td>
+            </tr>
+            <tr ng-if="!vm.items.length">
+              <td>Nenhum aluno encontrado.</td>
+            </tr>
+            <tr>
+              <td class="panel-footer">
+                <button class="btn btn-primary" type="button" ng-click="vm.createAluno(vm.query)">
+                  <span class="glyphicon glyphicon-plus"></span> Criar
+                </button>
+                <pager vm="vm" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-8 col-md-8 col-lg-8 col-xs-8">
+    <form name="form" ng-if="vm.aluno" novalidate>
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading"><div class="panel-title">Aluno</div></div>
+          <div class="panel-body">
+            <div class="input-group">
+              <span class="input-group-addon">Nome</span>
+              <input type="text" class="form-control" name="nome" ng-model="vm.aluno.nome" required />
+              <span class="input-group-addon" ng-messages="form.nome.$error" ng-if="form.nome.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Data de nascimento</span>
+              <input type="date" class="form-control" name="nascimento" ng-model="vm.aluno.nascimento"
+                min="1900-01-01" max="{{utils.getNascimentoMaxLimit() | date:'yyyy-MM-dd'}}" required />
+              <span class="input-group-addon" ng-if="form.nascimento.$valid">
+                  {{vm.aluno.nascimento | age}}
+              </span>
+              <span class="input-group-addon" ng-messages="form.nascimento.$error" ng-if="form.nascimento.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">RG</span>
+              <input type="text" class="form-control" name="rg" ng-model="vm.aluno.rg" />
+              <span class="input-group-addon">Emissor</span>
+              <input type="text" class="form-control" name="emissor" ng-model="vm.aluno.emissor" />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">CPF</span>
+              <input type="text" class="form-control" name="cpf" ng-model="vm.aluno.cpf" mask="999.999.999-99" />
+              <span class="input-group-addon" ng-if="!vm.aluno.cpf">somente números</span>
+              <span class="input-group-addon" ng-messages="form.cpf.$error" ng-if="form.cpf.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Endereço</span>
+              <input type="text" class="form-control" name="endereco" ng-model="vm.aluno.endereco" />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Bairro</span>
+              <input type="text" class="form-control" name="bairro" ng-model="vm.aluno.bairro" />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Cidade</span>
+              <input type="text" class="form-control" name="cidade" ng-model="vm.aluno.cidade" />
+              <span class="input-group-addon">Estado</span>
+              <select class="form-control" name="estado" ng-model="vm.aluno.estado">
+                <option ng-repeat="(i, estado) in utils.estados track by $index">{{estado}}</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">CEP</span>
+              <input type="text" class="form-control" name="cep" ng-model="vm.aluno.cep" mask="99999-999" />
+              <span class="input-group-addon" ng-if="!vm.aluno.cep">somente números</span>
+              <span class="input-group-addon" ng-messages="form.cep.$error" ng-if="form.cep.$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group" ng-repeat="(i, telefone) in vm.aluno.telefones track by $index">
+              <span class="input-group-addon">Telefone <span ng-if="vm.aluno.telefones.length > 1">{{i+1}}</span></span>
+              <input type="text" class="form-control" name="telefones{{$index}}" ng-model="vm.aluno.telefones[i]" mask="(99) 9?9999-9999" />
+              <span class="input-group-addon" ng-messages="form['telefones'+$index].$error" ng-if="form['telefones'+$index].$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+              <span ng-click="utils.removeElement(vm.aluno.telefones, i)" class="input-group-addon btn btn-default" ng-if="vm.aluno.telefones.length > 1" title="Remover">
+                  <span class="glyphicon glyphicon-minus"></span>
+              </span>
+              <span ng-click="utils.addElement(vm.aluno.telefones)" class="input-group-addon btn btn-default" ng-if="i+1 == vm.aluno.telefones.length && vm.aluno.telefones.length < 9" title="Adicionar">
+                  <span class="glyphicon glyphicon-plus"></span>
+              </span>
+            </div>
+
+            <div class="input-group" ng-repeat="(i, email) in vm.aluno.emails track by $index">
+              <span class="input-group-addon">E-mail <span ng-if="vm.aluno.emails.length > 1">{{i+1}}</span></span>
+              <input type="email" class="form-control" name="emails{{$index}}" ng-model="vm.aluno.emails[i]" />
+              <span class="input-group-addon" ng-messages="form['emails'+$index].$error" ng-if="form['emails'+$index].$invalid">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+              <span ng-click="utils.removeElement(vm.aluno.emails, i)" class="input-group-addon btn btn-default" ng-if="vm.aluno.emails.length > 1" title="Remover">
+                  <span class="glyphicon glyphicon-minus"></span>
+              </span>
+              <span ng-click="utils.addElement(vm.aluno.emails)" class="input-group-addon btn btn-default" ng-if="i+1 == vm.aluno.emails.length && vm.aluno.emails.length < 9" title="Adicionar">
+                  <span class="glyphicon glyphicon-plus"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Notas</span>
+              <textarea class="form-control" name="observacao" ng-model="vm.aluno.observacao"></textarea>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <button type="submit" class="btn btn-success" ng-disabled="form.$invalid" ng-click="vm.saveAluno(vm.aluno)">
+              <span class="glyphicon glyphicon-ok"></span> Salvar
+            </button>
+            <button type="button" class="btn btn-danger" ng-show="vm.aluno._id" ng-click="vm.removeAluno(vm.aluno)">
+              <span class="glyphicon glyphicon-remove"></span> Remover
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive" ng-if="vm.cursos.length">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th class="minimal-width no-wrap">Status</th>
+              <th class="minimal-width no-wrap">Matrícula</th>
+              <th class="minimal-width no-wrap">Plano</th>
+              <th>Situação</th>
+              <th>Notas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(i, curso) in vm.cursos track by $index">
+              <td>{{curso.nome}}</td>
+              <td class="minimal-width no-wrap">{{utils.getCursoStatusLabel(curso)}}</td>
+              <td class="minimal-width no-wrap">{{curso.aluno.data | date:'dd/MM/yyyy'}}</td>
+              <td class="minimal-width no-wrap">{{curso.aluno.plano.label}}</td>
+              <td>
+                {{curso.aluno.plano.situacao}}
+                <div class="glyphicon collapsable" ng-click="isCollapsed = !isCollapsed"
+                      ng-class="{'glyphicon-triangle-top': isCollapsed, 'glyphicon-triangle-bottom': !isCollapsed}"
+                      data-toggle="collapse" data-target=".situacao_{{curso._id}}_{{vm.aluno._id}}"></div>
+                <div class="collapse situacao_{{curso._id}}_{{vm.aluno._id}}">
+                  <table class="pagamento-info">
+                    <tbody>
+                      <tr>
+                        <td class="text-right"><strong>Pago:</strong>&nbsp;</td>
+                        <td>{{utils.getReais(curso.aluno.plano.valorPago)}}</td>
+                      </tr>
+                      <tr>
+                        <td class="text-right"><strong>Restante:</strong>&nbsp;</td>
+                        <td>{{utils.getReais(curso.aluno.plano.valorRemanescente)}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+              <td>{{curso.aluno.observacao}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </form>
+  </div>
+</div>

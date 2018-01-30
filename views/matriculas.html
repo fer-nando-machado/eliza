@@ -1,0 +1,156 @@
+<div ng-controller="matriculas as vm" ng-init="vm.initMatriculas()">
+  <div class="col-sm-4 col-md-4 col-lg-4 col-xs-4">
+    <form novalidate>
+      <div class="input-group clear">
+        <input type="text" class="form-control" ng-model="vm.query" />
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-default" ng-click="vm.findCursosByNome(vm.query)">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="panel panel-default">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th class="minimal-width no-wrap">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-clickable" ng-repeat="item in vm.items" ng-click="vm.createMatricula(item)">
+              <td>{{item.nome}}</td>
+              <td class="minimal-width no-wrap">{{utils.getCursoStatusLabel(item)}}</td>
+            </tr>
+            <tr ng-if="!vm.items.length">
+              <td colspan="2">Nenhum curso encontrado.</td>
+            </tr>
+            <tr>
+              <td colspan="2" class="panel-footer panel-footer-no-create">
+                <pager vm="vm" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-8 col-md-8 col-lg-8 col-xs-8">
+    <form name="form" ng-if="vm.matricula" novalidate>
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading"><div class="panel-title">Matrícula</div></div>
+          <div class="panel-body">
+            <div class="input-group">
+              <span class="input-group-addon">Curso</span>
+              <input type="text" class="form-control" ng-model="vm.curso.nome" disabled />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Aluno</span>
+              <input type="text" class="form-control" value="Não há alunos cadastrados." ng-if="!vm.alunosOptions.length" disabled />
+              <span ng-dropdown-multiselect="true" options="vm.alunosOptions" selected-model="vm.alunosSelected" ng-if="vm.alunosOptions.length"
+                extra-settings="vm.singleSelectAlunoSettings" translation-texts="utils.i18nMultiSelect"></span>
+              <span class="input-group-addon" ng-messages="{'required':true}" ng-if="vm.alunosOptions.length && !vm.alunosSelected.length">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Plano</span>
+              <span ng-dropdown-multiselect="true" options="vm.planosOptions" selected-model="vm.planosSelected"
+                extra-settings="vm.singleSelectPlanoSettings" translation-texts="utils.i18nMultiSelect"></span>
+              <span class="input-group-addon" ng-messages="{'required':true}" ng-if="!vm.planosSelected.length">
+                <span ng-messages-include="views/messages.html"></span>
+              </span>
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-addon">Notas</span>
+              <textarea class="form-control" name="observacao" ng-model="vm.matricula.observacao"></textarea>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <button type="submit" class="btn btn-success" ng-disabled="!vm.alunosSelected.length || !vm.planosSelected.length"
+              ng-click="vm.saveMatricula(vm.matricula, vm.curso)">
+              <span class="glyphicon glyphicon-ok"></span> Matricular
+            </button>
+            <div class="alert alert-{{vm.capacidade.alert}} pull-right alert-capacidade" ng-if="vm.capacidade.message">
+              <strong>Capacidade:</strong> {{vm.capacidade.message}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive" ng-if="vm.alunosEmCurso.length">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Contato</th>
+              <th class="minimal-width no-wrap">Matrícula</th>
+              <th class="minimal-width no-wrap">Plano</th>
+              <th>Situação</th>
+              <th>Responsável</th>
+              <th>Notas</th>
+              <th class="minimal-width no-wrap"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(i, aluno) in vm.alunosEmCurso track by $index">
+              <td>{{aluno.nome}}</td>
+              <td>
+                <div ng-if="aluno.contatos.total == 1">
+                  {{aluno.contatos.first}}
+                </div>
+                <div ng-if="aluno.contatos.total > 1">
+                  {{aluno.contatos.first}}
+                  <div class="glyphicon collapsable" ng-click="isCollapsed = !isCollapsed"
+                        ng-class="{'glyphicon-triangle-top': isCollapsed, 'glyphicon-triangle-bottom': !isCollapsed}"
+                        data-toggle="collapse" data-target=".contatos_{{aluno._id}}"></div>
+                  <div class="collapse contatos_{{aluno._id}}">
+                    <div ng-repeat="(i, contato) in aluno.contatos.others track by $index">{{contato}}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="minimal-width no-wrap">{{aluno.curso.data | date:'dd/MM/yyyy'}}</td>
+              <td class="minimal-width no-wrap">{{aluno.curso.plano.label}}</td>
+              <td>
+                {{aluno.curso.plano.situacao}}
+                <div class="glyphicon collapsable" ng-click="isCollapsed = !isCollapsed"
+                      ng-class="{'glyphicon-triangle-top': isCollapsed, 'glyphicon-triangle-bottom': !isCollapsed}"
+                      data-toggle="collapse" data-target=".situacao_{{aluno._id}}"></div>
+                <div class="collapse situacao_{{aluno._id}}">
+                  <table class="pagamento-info">
+                    <tbody>
+                      <tr>
+                        <td class="text-right"><strong>Pago:</strong>&nbsp;</td>
+                        <td>{{utils.getReais(aluno.curso.plano.valorPago)}}</td>
+                      </tr>
+                      <tr>
+                        <td class="text-right"><strong>Restante:</strong>&nbsp;</td>
+                        <td>{{utils.getReais(aluno.curso.plano.valorRemanescente)}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+              <td><legacy legacy="!aluno.curso.responsavel.active" value="aluno.curso.responsavel.nome" /></td>
+              <td>{{aluno.curso.observacao}}</td>
+              <td class="minimal-width no-wrap">
+                <button type="button" class="btn btn-danger btn-xs" title="Remover aluno" ng-click="vm.removeMatricula(aluno._id, vm.curso._id)">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </form>
+  </div>
+</div>

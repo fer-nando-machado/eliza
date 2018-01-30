@@ -1,0 +1,40 @@
+<div ng-controller="header as vm">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img src="eliza.png" />
+        </a>
+      </div>
+      <ul class="nav navbar-nav" ng-show="utils.getCurrentUser()">
+        <li ng-class="{active: vm.isActive('agenda')}">
+          <a ng-click="vm.go('agenda')"><span class="glyphicon glyphicon-calendar"></span> Agenda</a>
+        </li>
+        <li ng-class="{active: vm.isActive('alunos')}">
+          <a ng-click="vm.go('alunos')"><span class="glyphicon glyphicon-user"></span> Alunos</a>
+        </li>
+        <li ng-class="{active: vm.isActive('professores')}">
+          <a ng-click="vm.go('professores')"><span class="glyphicon glyphicon-apple"></span> Professores</a>
+        </li>
+        <li ng-class="{active: vm.isActive('cursos')}">
+          <a ng-click="vm.go('cursos')"><span class="glyphicon glyphicon-education"></span> Cursos</a>
+        </li>
+        <li ng-class="{active: vm.isActive('matriculas')}">
+          <a ng-click="vm.go('matriculas')"><span class="glyphicon glyphicon-star"></span> Matrículas</a>
+        </li>
+        <li ng-class="{active: vm.isActive('pagamentos')}">
+          <a ng-click="vm.go('pagamentos')"><span class="glyphicon glyphicon-piggy-bank"></span> Pagamentos</a>
+        </li>
+        <li ng-class="{active: vm.isActive('relatorios')}">
+          <a ng-click="vm.go('relatorios')"><span class="glyphicon glyphicon-print"></span> Relatórios</a>
+        </li>
+        <li ng-class="{active: vm.isActive('usuarios')}">
+          <a ng-click="vm.go('usuarios')"><span class="glyphicon glyphicon-lock"></span> Usuários</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" ng-show="utils.getCurrentUser()">
+        <li ng-class="{active: vm.isActive('config')}"><a ng-click="vm.go('config')"><span class="glyphicon glyphicon-cog"></span></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>

@@ -1,0 +1,231 @@
+html body {
+  overflow: hidden;
+  line-height: normal;
+}
+
+.view {
+  position: absolute;
+  height: calc(100% - 130px);
+  margin-top: 65px;
+  overflow-y: auto;
+}
+
+.navbar-header .navbar-brand {
+  padding: 2px 4px 0px 6px;
+}
+
+.navbar-header .navbar-brand img {
+  width: 50px;
+}
+
+a.credits {
+  color: gray;
+  padding-right: 24px;
+}
+
+a.credits:hover .glyphicon-heart {
+  color: red;
+}
+
+a:link, a:visited, a:hover, a:active {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.table-clickable {
+  cursor: pointer;
+}
+
+.clear {
+  padding-bottom: 20px;
+}
+
+.pagination {
+  float: right;
+  margin: 0px;
+}
+
+.pagination .pagination-current span {
+  cursor: default !important;
+}
+
+.pagination {
+  padding: 2px 0px;
+}
+
+.input-group-addon {
+  font-weight: bold;
+}
+
+.input-messages .error {
+  color: #FF2400;
+}
+
+.alert {
+  padding: 0px 4px;
+  margin: 0px;
+}
+
+.alert-dismiss {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.alert-dismiss:hover {
+  font-weight: normal;
+}
+
+textarea {
+  resize: none;
+}
+
+.checkbox-inline {
+  font-size: small;
+}
+
+.checkbox-inline input[type="checkbox"] {
+  margin-top: 2px;
+  margin-left: -16px;
+  cursor: pointer;
+}
+
+.panel-calendar .btn-group {
+  top: -8px;
+  right: -13px;
+  height: 0px;
+}
+
+table.table {
+  margin: 0px;
+}
+
+.table-calendar table.table {
+  table-layout: fixed;
+}
+
+.table-calendar table.table th {
+  text-align: center;
+  padding: 0px;
+}
+
+.table-calendar table.table td.hasCursos {
+  background-color: LemonChiffon;
+}
+
+.table-calendar table.table td.notEscopoAtual {
+  background-color: WhiteSmoke;
+}
+
+.table-calendar .table-calendar-cell {
+  position: relative;
+  min-height: 70px;
+  padding-top: 6px;
+  padding-left: 14px;
+}
+
+.table-calendar .table-calendar-cell .table-calendar-content {
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width : 100%;
+  font-size: smaller;
+}
+
+.table-calendar .table-calendar-cell .table-calendar-date {
+  position: absolute;
+  top: -8px;
+  left: -5px;
+  color: #999;
+  font-size: small;
+}
+
+.dropdown-multiselect button.dropdown-toggle {
+  background-image: none;
+}
+
+.dropdown-multiselect button.dropdown-toggle:hover {
+  background-color: transparent;
+}
+
+.dropdown-multiselect button.dropdown-toggle .caret {
+  float: right;
+  margin-top: 8px;
+  margin-right: -6px;
+}
+
+.dropdown-multiselect .dropdown-menu {
+  margin: 0px;
+  width: 100%;
+  border-radius: 0px;
+}
+
+.dropdown-multiselect .dropdown-menu .dropdown-header {
+  display: table;
+  padding: 3px 14px 0px 16px;
+  width: 100%;
+}
+
+.dropdown-multiselect, .dropdown-multiselect .dropdown-toggle {
+  width: 100%;
+  border-radius: 0px;
+}
+
+.dropdown-multiselect .dropdown-toggle {
+  text-align: left;
+}
+
+.panel-plano {
+  margin-top: 0px !important;
+}
+
+.panel-plano .panel-title {
+  font-size: small;
+  font-weight: bold;
+  color: #555;
+}
+
+.panel-plano .btn-group {
+  top: -8px;
+  right: -13px;
+  height: 0px;
+}
+
+.alert-capacidade {
+  margin-top: 6px;
+  padding: 2px;
+}
+
+.panel-footer-no-create {
+  height: 45px;
+}
+
+.minimal-width {
+  width: 1px;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+select {
+  cursor: pointer;
+}
+
+.pagamento-info {
+  color: #999;
+  font-size: small;
+}
+
+.collapsable {
+  cursor: pointer;
+  float: right;
+}
+
+.legacy {
+  color: #AAA;
+}
+
+input.form-control[disabled] {
+  cursor: default;
+}

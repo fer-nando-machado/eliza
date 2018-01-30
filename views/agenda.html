@@ -1,0 +1,47 @@
+<div ng-controller="agenda as vm" ng-init="vm.initAgenda()">
+  <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+    <div class="panel-group">
+      <div class="panel panel-default panel-calendar">
+        <div class="panel-heading">
+          <div class="panel-title pull-left">
+            Agenda de {{vm.escopo | date:'MMMM'}} de {{vm.escopo | date:'yyyy'}}
+          </div>
+          <div class="btn-group pull-right">
+            <button class="btn btn-default" type="button" ng-click="vm.previousEscopo()">
+              <span class="glyphicon glyphicon-chevron-left"></span> Anterior
+            </button>
+            <button class="btn btn-default" type="button" ng-click="vm.nextEscopo()">
+              Próxima <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive table-calendar">
+            <table class="table table-bordered table-condensed">
+              <thead>
+                <tr>
+                  <th ng-repeat="d in vm.calendario[0]|limitTo:7">
+                    {{d.data | date:'EEEE'}}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="dias in vm.calendario">
+                  <td ng-repeat="d in dias" ng-class="{notEscopoAtual: !d.isEscopoAtual, hasCursos: !!d.cursos.length}">
+                    <div class="table-calendar-cell" ng-if="d.isEscopoAtual">
+                      <div class="table-calendar-date">{{d.data | date:'dd'}}</div>
+                      <div class="table-calendar-content" ng-repeat="c in d.cursos">
+                        <strong>{{c.horario | date:'HH:mm'}}</strong> {{c.nome}}<br/>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
