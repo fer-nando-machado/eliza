@@ -1,6 +1,6 @@
 # Eliza
 
-**School management software (that can also be used on other places that fit in the student/teacher/class model).** 
+**School management software.** 
 
 This is a cross-platform desktop app, created using the following technologies: 
 
