@@ -13,6 +13,8 @@ This is a cross-platform desktop app, created using the following technologies:
 
 npm start
 
+# License
+
 This software was based on the [electron-quick-start](https://github.com/electron/electron-quick-start) project, available within the Electron documentation.
 
 #### License [CC0 1.0 (Public Domain)](LICENSE.md)
