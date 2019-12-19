@@ -1,6 +1,6 @@
 # Eliza
 
-**School management software (that can also be used on other places that fit in the student/teacher/class model).** 
+**School management software.** 
 
 This is a cross-platform desktop app, created using the following technologies: 
 
@@ -8,6 +8,12 @@ This is a cross-platform desktop app, created using the following technologies:
 - [Node.js](https://nodejs.org/en/)
 - [NeDB](https://github.com/louischatriot/nedb)
 - [Angular v1.x](https://angularjs.org/)
+
+# How to run
+
+npm start
+
+# License
 
 This software was based on the [electron-quick-start](https://github.com/electron/electron-quick-start) project, available within the Electron documentation.
 
