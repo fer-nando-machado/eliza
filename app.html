@@ -9,9 +9,15 @@
   </head>
   <body>
     <script>
+      if (typeof module === 'object') {
+        window.module = module; 
+        module = undefined;
+      }
+    </script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>    
+    <script>
       const Datastore = require('nedb');
       const Normalizer = require('normalize-strings');
-      require('jQuery');
       require('angular');
       require('angular-route');
       require('angular-messages');
@@ -22,6 +28,10 @@
       require('./app.js');
     </script>
     <script src="js/angular-locale_pt-br.js"></script>
+    <script>
+      if (window.module) 
+        module = window.module;
+    </script>
     <div ng-include="'views/header.html'"></div>
     <div class="container-fluid view">
       <div class="row">
