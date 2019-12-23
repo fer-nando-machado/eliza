@@ -51,7 +51,7 @@
               <span class="input-group-addon">Nome</span>
               <input type="text" class="form-control" name="nome" ng-model="vm.aluno.nome" required />
               <span class="input-group-addon" ng-messages="form.nome.$error" ng-if="form.nome.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -63,7 +63,7 @@
                   {{vm.aluno.nascimento | age}}
               </span>
               <span class="input-group-addon" ng-messages="form.nascimento.$error" ng-if="form.nascimento.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -79,7 +79,7 @@
               <input type="text" class="form-control" name="cpf" ng-model="vm.aluno.cpf" mask="999.999.999-99" />
               <span class="input-group-addon" ng-if="!vm.aluno.cpf">somente números</span>
               <span class="input-group-addon" ng-messages="form.cpf.$error" ng-if="form.cpf.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -107,7 +107,7 @@
               <input type="text" class="form-control" name="cep" ng-model="vm.aluno.cep" mask="99999-999" />
               <span class="input-group-addon" ng-if="!vm.aluno.cep">somente números</span>
               <span class="input-group-addon" ng-messages="form.cep.$error" ng-if="form.cep.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -115,7 +115,7 @@
               <span class="input-group-addon">Telefone <span ng-if="vm.aluno.telefones.length > 1">{{i+1}}</span></span>
               <input type="text" class="form-control" name="telefones{{$index}}" ng-model="vm.aluno.telefones[i]" mask="(99) 9?9999-9999" />
               <span class="input-group-addon" ng-messages="form['telefones'+$index].$error" ng-if="form['telefones'+$index].$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
               <span ng-click="utils.removeElement(vm.aluno.telefones, i)" class="input-group-addon btn btn-default" ng-if="vm.aluno.telefones.length > 1" title="Remover">
                   <span class="glyphicon glyphicon-minus"></span>
@@ -129,7 +129,7 @@
               <span class="input-group-addon">E-mail <span ng-if="vm.aluno.emails.length > 1">{{i+1}}</span></span>
               <input type="email" class="form-control" name="emails{{$index}}" ng-model="vm.aluno.emails[i]" />
               <span class="input-group-addon" ng-messages="form['emails'+$index].$error" ng-if="form['emails'+$index].$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
               <span ng-click="utils.removeElement(vm.aluno.emails, i)" class="input-group-addon btn btn-default" ng-if="vm.aluno.emails.length > 1" title="Remover">
                   <span class="glyphicon glyphicon-minus"></span>

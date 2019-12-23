@@ -56,7 +56,7 @@
               <span ng-dropdown-multiselect="true" options="vm.alunosOptions" selected-model="vm.alunosSelected" ng-if="vm.alunosOptions.length"
                 extra-settings="vm.singleSelectAlunoSettings" translation-texts="utils.i18nMultiSelect"></span>
               <span class="input-group-addon" ng-messages="{'required':true}" ng-if="vm.alunosOptions.length && !vm.alunosSelected.length">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -65,7 +65,7 @@
               <span ng-dropdown-multiselect="true" options="vm.planosOptions" selected-model="vm.planosSelected"
                 extra-settings="vm.singleSelectPlanoSettings" translation-texts="utils.i18nMultiSelect"></span>
               <span class="input-group-addon" ng-messages="{'required':true}" ng-if="!vm.planosSelected.length">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 

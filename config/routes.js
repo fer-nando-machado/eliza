@@ -1,37 +1,37 @@
 app.config(function ($routeProvider) {
   $routeProvider.
     when('/login', {
-      templateUrl: 'views/login.html'
+      templateUrl: 'view/login.html'
     }).
     when('/agenda', {
-      templateUrl: 'views/agenda.html'
+      templateUrl: 'view/agenda.html'
     }).
     when('/alunos', {
-      templateUrl: 'views/alunos.html'
+      templateUrl: 'view/alunos.html'
     }).
     when('/professores', {
-      templateUrl: 'views/professores.html',
+      templateUrl: 'view/professores.html',
     }).
     when('/cursos', {
-      templateUrl: 'views/cursos.html'
+      templateUrl: 'view/cursos.html'
     }).
     when('/matriculas', {
-      templateUrl: 'views/matriculas.html'
+      templateUrl: 'view/matriculas.html'
     }).
     when('/pagamentos', {
-      templateUrl: 'views/pagamentos.html'
+      templateUrl: 'view/pagamentos.html'
     }).
     when('/relatorios', {
-      templateUrl: 'views/relatorios.html',
+      templateUrl: 'view/relatorios.html',
     }).
     when('/config', {
-      templateUrl: 'views/config.html',
+      templateUrl: 'view/config.html',
     }).
     when('/credits', {
-      templateUrl: 'views/credits.html',
+      templateUrl: 'view/credits.html',
     }).
     when('/usuarios', {
-      templateUrl: 'views/usuarios.html',
+      templateUrl: 'view/usuarios.html',
     }).
     otherwise({
       redirectTo: '/login'

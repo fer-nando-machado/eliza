@@ -55,7 +55,7 @@
               <span class="input-group-addon">Nome</span>
               <input type="text" class="form-control" name="nome" ng-model="vm.usuario.nome" required />
               <span class="input-group-addon" ng-messages="form.nome.$error" ng-if="form.nome.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -63,7 +63,7 @@
               <span class="input-group-addon">Login</span>
               <input type="text" class="form-control" name="login" ng-model="vm.usuario.login" required />
               <span class="input-group-addon" ng-messages="form.login.$error" ng-if="form.login.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -75,7 +75,7 @@
               <input type="password" class="form-control" ng-model="vm.password.confirmation"
                 ng-change="vm.validatePassword(vm.password)" />
               <span class="input-group-addon" ng-messages="vm.password.error" ng-if="vm.password.error">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -90,7 +90,7 @@
                 </label>
               </div>
               <span class="input-group-addon" ng-messages="form.level.$error" ng-if="form.level.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
               <input type="text" class="form-control" ng-show="!utils.isAdmin() || utils.getCurrentUser()._id == vm.usuario._id" ng-value="utils.levelOptions[vm.usuario.level]" disabled />
             </div>

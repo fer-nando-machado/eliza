@@ -53,7 +53,7 @@
               <span class="input-group-addon">Nome</span>
               <input type="text" class="form-control" name="nome" ng-model="vm.curso.nome" required />
               <span class="input-group-addon" ng-messages="form.nome.$error" ng-if="form.nome.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -63,7 +63,7 @@
               <span ng-dropdown-multiselect="true" options="vm.professoresOptions" selected-model="vm.professoresSelected" ng-if="vm.professoresOptions.length"
                 extra-settings="vm.professoresSettings" translation-texts="utils.i18nMultiSelect"></span>
               <span class="input-group-addon" ng-messages="{'required':true}" ng-if="vm.professoresOptions.length && !vm.professoresSelected.length">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -72,7 +72,7 @@
               <input type="date" class="form-control" name="inicio" ng-model="vm.curso.inicio" ng-change="vm.calculateCargaTotal(vm.curso)"
                 min="2000-01-01" max="{{utils.getInicioMaxLimit(vm.curso.fim) | date:'yyyy-MM-dd'}}" required />
               <span class="input-group-addon" ng-messages="form.inicio.$error" ng-if="form.inicio.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -81,7 +81,7 @@
               <input type="date" class="form-control" name="fim" ng-model="vm.curso.fim" ng-change="vm.calculateCargaTotal(vm.curso)"
                 min="{{utils.getFimMinLimit(vm.curso.inicio) | date:'yyyy-MM-dd'}}" max="3000-12-31" required />
               <span class="input-group-addon" ng-messages="form.fim.$error" ng-if="form.fim.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -93,7 +93,7 @@
                 </label>
               </div>
               <span class="input-group-addon" ng-messages="{'required':true}" ng-if="vm.isDiasDaSemanaInvalid(vm.curso.diasDaSemana)">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -101,7 +101,7 @@
               <span class="input-group-addon">Horário</span>
               <input type="time" class="form-control" name="horario" ng-model="vm.curso.horario" required />
               <span class="input-group-addon" ng-messages="form.horario.$error" ng-if="form.horario.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -110,7 +110,7 @@
               <input type="number" class="form-control" name="cargaHoraria" ng-model="vm.curso.cargaHoraria" ng-change="vm.calculateCargaTotal(vm.curso)"
                 min="1" max="24" required />
               <span class="input-group-addon" ng-messages="form.cargaHoraria.$error" ng-if="form.cargaHoraria.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -119,7 +119,7 @@
               <input type="number" class="form-control" name="cargaTotal" ng-model="vm.curso.cargaTotal"
                 min="1" required disabled />
               <span class="input-group-addon" ng-messages="form.cargaTotal.$error" ng-if="form.cargaTotal.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -127,7 +127,7 @@
               <span class="input-group-addon">Capacidade máxima</span>
               <input type="number" class="form-control" name="capacidade" ng-model="vm.curso.capacidade"  min="1" required />
               <span class="input-group-addon" ng-messages="form.capacidade.$error" ng-if="form.capacidade.$invalid">
-                <span ng-messages-include="views/messages.html"></span>
+                <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
 
@@ -152,7 +152,7 @@
                   <input type="number" class="form-control" name="planosParcelas{{$index}}"
                     ng-model="vm.curso.planos[i].parcelas" min="1" max="99"/>
                   <span class="input-group-addon" ng-messages="form['planosParcelas'+$index].$error" ng-if="form['planosParcelas'+$index].$invalid">
-                    <span ng-messages-include="views/messages.html"></span>
+                    <span ng-messages-include="view/messages.html"></span>
                   </span>
                 </div>
                 <div class="input-group">
@@ -160,7 +160,7 @@
                   <input type="number" class="form-control" name="planosValor{{$index}}"
                     ng-model="vm.curso.planos[i].valor" min="1"/>
                   <span class="input-group-addon" ng-messages="form['planosValor'+$index].$error" ng-if="form['planosValor'+$index].$invalid">
-                    <span ng-messages-include="views/messages.html"></span>
+                    <span ng-messages-include="view/messages.html"></span>
                   </span>
                 </div>
               </div>
