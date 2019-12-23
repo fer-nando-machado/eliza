@@ -16,6 +16,7 @@
     </script>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>    
     <script>
+      const requireAll = require('require-all');
       const Datastore = require('nedb');
       const Normalizer = require('normalize-strings');
       require('angular');
@@ -25,6 +26,19 @@
       require('angularjs-dropdown-multiselect');
       require('ng-mask');
       require('bootstrap');
+      var app = angular.module('eliza', 
+        ['ngRoute', 
+        'ngMessages', 
+        'ngMask', 
+        'angularjs-dropdown-multiselect']);
+      var CONFIG = {};
+      var USER = null;
+      requireAll(__dirname + '/config');
+      requireAll(__dirname + '/controller');
+      requireAll(__dirname + '/directive');
+      requireAll(__dirname + '/factory');
+      requireAll(__dirname + '/filter');
+      requireAll(__dirname + '/service');
       require('./app.js');
     </script>
     <script src="lib/angular-locale_pt-br.js"></script>
@@ -36,7 +50,7 @@
     <div class="container-fluid view">
       <div class="row">
           <div ng-view></div>
-      </div>
+      </div>Z
     </div>
     <div ng-include="'views/footer.html'"></div>
   </body>
