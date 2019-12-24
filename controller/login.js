@@ -54,7 +54,7 @@ app.controller('login', function($scope, $location, dao, utils, alert) {
   
     vm.logout = function() {
       alert.info("Encerrando sessão de " + utils.getCurrentUser().login + ".");
-      utils.setCurrentUser();
+      utils.setCurrentUser(undefined);
     };
   
     vm.go = function(path) {
