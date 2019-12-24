@@ -18,6 +18,11 @@ html body {
   width: 50px;
 }
 
+.navbar-header .navbar-brand img:hover {
+  opacity: 0.75;
+  filter: alpha(opacity=75);
+}
+
 a.credits {
   color: gray;
   padding-right: 24px;
