@@ -7,10 +7,10 @@ app.run(['$rootScope', 'dao', 'utils', function($rootScope, dao, utils) {
   var promise = dao.findOne(db.config);
   promise.then(function(doc) {
     if (!doc) {
-      $rootScope.config = {};
+      utils.setCurrentConfig({});
       console.log('Config não localizado.');
     } else {
-      $rootScope.config = doc;
+      utils.setCurrentConfig(doc);
       console.log('Config carregado com sucesso.');
       console.log(doc);
     }

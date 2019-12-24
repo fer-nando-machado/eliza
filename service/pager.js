@@ -1,11 +1,11 @@
-app.service('pager', function($rootScope) {
+app.service('pager', function(utils) {
     // service implementation
     this.getPager = function(totalItems, currentPage) {
       // default to first page
       currentPage = currentPage || 1;
   
       // default page size is 10
-      var pageSize = $rootScope.config.pageSize || 10;
+      var pageSize = utils.getCurrentConfig().pageSize || 10;
 
       // calculate total pages
       var totalPages = Math.ceil(totalItems / pageSize) || 1;

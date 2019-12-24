@@ -1,4 +1,4 @@
-app.controller('config', function($rootScope, $scope, dao, alert) {
+app.controller('config', function($scope, dao, alert, utils) {
     var vm = this;
     var db = {};
   
@@ -11,9 +11,6 @@ app.controller('config', function($rootScope, $scope, dao, alert) {
       var promise = dao.findOne(db.config);
       promise.then(function(doc) {
         vm.config = doc;
-        if (!vm.config.pageSize) {
-          vm.config.pageSize = 10;
-        }
       }, function(err) {
         console.log(err);
       });
@@ -31,7 +28,7 @@ app.controller('config', function($rootScope, $scope, dao, alert) {
       var promise = dao.insert(db.config, config);
       promise.then(function(doc) {
         vm.config = doc;
-        $rootScope.config = doc;
+        utils.setCurrentConfig(doc);
         alert.success("Configurações atualizadas.");
       }, function(err) {
         console.log(err);
@@ -43,7 +40,7 @@ app.controller('config', function($rootScope, $scope, dao, alert) {
       var promise = dao.update(db.config, {_id: config._id}, config, false);
       promise.then(function(doc) {
         vm.config = doc;
-        $rootScope.config = doc;
+        utils.setCurrentConfig(doc);
         alert.success("Configurações atualizadas.");
       }, function(err) {
         console.log(err);
