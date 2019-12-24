@@ -201,8 +201,12 @@ table.table {
   padding: 2px;
 }
 
+.panel-footer {
+  padding: 10px !important;
+}
+
 .panel-footer-no-create {
-  height: 45px;
+  height: 55px;
 }
 
 .minimal-width {
