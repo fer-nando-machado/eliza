@@ -25,7 +25,7 @@ function createWindow() {
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'app.html'),
-    icon: path.join(__dirname, 'eliza.ico'),
+    icon: path.join(__dirname, 'icons', 'icon.png'),
     protocol: 'file:',
     slashes: true,
   }));
