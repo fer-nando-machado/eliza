@@ -1,4 +1,4 @@
-app.factory('utils', function ($filter, $sce) {
+app.factory('utils', function ($rootScope, $filter, $sce) {
   return {
     i18nMultiSelect: {
       checkAll: 'Selecionar tudo',
@@ -21,14 +21,23 @@ app.factory('utils', function ($filter, $sce) {
     levelOptions: [
       'Root', 'Administrador', 'Operador'
     ],
+    getCurrentUser: function () {
+      return $rootScope.user;
+    },
+    setCurrentUser: function (user) {
+      $rootScope.user = user;
+    },
     isAdmin: function () {
-      if (USER.level == "0" || USER.level == "1") {
+      if (this.getCurrentUser().level == "0" || this.getCurrentUser().level == "1") {
         return true;
       }
       return false;
     },
-    getCurrentUser: function () {
-      return USER;
+    getCurrentConfig: function () {
+      return $rootScope.config;
+    },
+    setCurrentConfig: function (config) {
+      $rootScope.config = config;
     },
     estados: ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'],
     getMeiosLabel: function (id) {

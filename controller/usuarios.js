@@ -56,8 +56,8 @@ app.controller('usuarios', function($scope, dao, pager, alert, utils) {
     vm.updateUsuario = function(usuario) {
       var promise = dao.update(db.usuarios, {_id: usuario._id}, usuario, false);
       promise.then(function(doc) {
-        if (USER._id == doc._id) {
-          USER = doc;
+        if (utils.getCurrentUser()._id == doc._id) {
+          utils.setCurrentUser(doc);
         }
         vm.usuario = null;
         vm.findUsuarios();
@@ -79,7 +79,7 @@ app.controller('usuarios', function($scope, dao, pager, alert, utils) {
           alert.error("Ocorreu um problema ao tentar buscar os usuários. (" + err + ")");
         });
       } else {
-        var promise = dao.find(db.usuarios, {"_id": USER._id}, {});
+        var promise = dao.find(db.usuarios, {"_id": utils.getCurrentUser()._id}, {});
         promise.then(function(docs) {
           vm.usuarios = docs;
           vm.setPage(1);

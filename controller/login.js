@@ -44,7 +44,7 @@ app.controller('login', function($scope, $location, dao, utils, alert) {
         } else {
           vm.go('agenda');
           alert.info("Iniciando sessão de " + doc.login + ".");
-          USER = doc;
+          utils.setCurrentUser(doc);
         }
       }, function(err) {
         console.log(err);
@@ -53,8 +53,8 @@ app.controller('login', function($scope, $location, dao, utils, alert) {
     };
   
     vm.logout = function() {
-      alert.info("Encerrando sessão de " + USER.login + ".");
-      USER = null;
+      alert.info("Encerrando sessão de " + utils.getCurrentUser().login + ".");
+      utils.setCurrentUser();
     };
   
     vm.go = function(path) {
