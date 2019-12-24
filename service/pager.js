@@ -33,7 +33,7 @@ app.service('pager', function($rootScope) {
           return currentPage == totalPages;
         },
         hasPagination: function () {
-          return true;//totalPages > 1;
+          return totalPages > 1;
         }
       };
     }
