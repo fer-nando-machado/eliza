@@ -1,8 +1,5 @@
-app.run(['$rootScope', 'dao', 'utils', function($rootScope, dao, utils) {
+app.run(['$rootScope', 'db', 'dao', 'utils', function($rootScope, db, dao, utils) {
   $rootScope.utils = utils;
-
-  var db = {};
-  db.config = new Datastore({ filename: 'db/config.db', autoload: true});
 
   var promise = dao.findOne(db.config);
   promise.then(function(doc) {

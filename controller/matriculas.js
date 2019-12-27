@@ -1,6 +1,5 @@
-app.controller('matriculas', function($scope, dao, alert, pager, utils) {
+app.controller('matriculas', function($scope, db, dao, alert, pager, utils) {
     var vm = this;
-    var db = {};
   
     $scope.$watch('vm.alunosSelected', function(newValue) {
       if (!vm.matricula) {
@@ -21,9 +20,6 @@ app.controller('matriculas', function($scope, dao, alert, pager, utils) {
     }, true);
   
     vm.initMatriculas = function() {
-      db.alunos = new Datastore({ filename: 'db/alunos.db', autoload: true});
-      db.cursos = new Datastore({ filename: 'db/cursos.db', autoload: true});
-      db.usuarios = new Datastore({ filename: 'db/usuarios.db', autoload: true});
       vm.findCursos();
     };
   

@@ -1,9 +1,7 @@
-app.controller('config', function($scope, dao, alert, utils) {
+app.controller('config', function(db, dao, alert, utils) {
     var vm = this;
-    var db = {};
   
     vm.initConfig = function() {
-      db.config = new Datastore({ filename: 'db/config.db', autoload: true});
       vm.loadConfig();
     };
   

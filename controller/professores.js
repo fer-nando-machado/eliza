@@ -1,8 +1,7 @@
-app.controller('professores', function ($scope, dao, pager, alert, utils) {
+app.controller('professores', function (db, dao, pager, alert, utils) {
   var vm = this;
-  var db = {};
+
   vm.initProfessores = function () {
-    db.professores = new Datastore({ filename: 'db/professores.db', autoload: true });
     /*
     var promise = dao.ensureUniqueIndex(db.professores, 'cpf');
     promise.then(function() {

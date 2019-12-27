@@ -1,6 +1,5 @@
-app.controller('relatorios', function($scope, dao, pager, alert, utils) {
+app.controller('relatorios', function($scope, db, dao, pager, alert, utils) {
     var vm = this;
-    var db = {};
   
     $scope.$watch('vm.alunosSelected', function(newValue) {
       if (!vm.query) {
@@ -31,11 +30,6 @@ app.controller('relatorios', function($scope, dao, pager, alert, utils) {
     }, true);
   
     vm.initRelatorios = function() {
-      db.alunos = new Datastore({ filename: 'db/alunos.db', autoload: true});
-      db.cursos = new Datastore({ filename: 'db/cursos.db', autoload: true});
-      db.usuarios = new Datastore({ filename: 'db/usuarios.db', autoload: true});
-      db.pagamentos = new Datastore({ filename: 'db/pagamentos.db', autoload: true});
-  
       vm.resetQuery(true);
   
       vm.findAlunos();

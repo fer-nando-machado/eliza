@@ -1,6 +1,5 @@
-app.controller('pagamentos', function($scope, dao, pager, alert, utils) {
+app.controller('pagamentos', function($scope, db, dao, pager, alert, utils) {
     var vm = this;
-    var db = {};
   
     $scope.$watch('vm.alunosSelected', function(newValue) {
       if (!vm.pagamento) {
@@ -27,10 +26,6 @@ app.controller('pagamentos', function($scope, dao, pager, alert, utils) {
     }, true);
   
     vm.initPagamentos = function() {
-      db.alunos = new Datastore({ filename: 'db/alunos.db', autoload: true});
-      db.cursos = new Datastore({ filename: 'db/cursos.db', autoload: true});
-      db.pagamentos = new Datastore({ filename: 'db/pagamentos.db', autoload: true});
-      db.usuarios = new Datastore({ filename: 'db/usuarios.db', autoload: true});
       vm.findCursos();
     };
   

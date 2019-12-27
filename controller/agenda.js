@@ -1,9 +1,7 @@
-app.controller('agenda', function($scope, dao, utils) {
+app.controller('agenda', function(db, dao, utils) {
     var vm = this;
-    var db = {};
   
     vm.initAgenda = function() {
-      db.cursos = new Datastore({ filename: 'db/cursos.db', autoload: true});
       vm.escopo = utils.today();
       this.loadCalendario();
     };

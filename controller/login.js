@@ -1,10 +1,7 @@
-app.controller('login', function($scope, $location, dao, utils, alert) {
+app.controller('login', function(db, $location, dao, utils, alert) {
     var vm = this;
-    var db = {};
   
-    vm.initLogin = function() {
-      db.usuarios = new Datastore({ filename: 'db/usuarios.db', autoload: true});
-  
+    vm.initLogin = function() {  
       var promise = dao.ensureUniqueIndex(db.usuarios, 'login');
       promise.then(function() {
         console.log('Unique constraint usuarios.login ativada com sucesso.');

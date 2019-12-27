@@ -1,9 +1,7 @@
-app.controller('usuarios', function($scope, dao, pager, alert, utils) {
+app.controller('usuarios', function(db, dao, pager, alert, utils) {
     var vm = this;
-    var db = {};
   
     vm.initUsuarios = function() {
-      db.usuarios = new Datastore({ filename: 'db/usuarios.db', autoload: true});
       vm.findUsuarios();
     };
   

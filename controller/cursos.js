@@ -1,6 +1,5 @@
-app.controller('cursos', function($scope, dao, pager, alert, utils) {
+app.controller('cursos', function($scope, db, dao, pager, alert, utils) {
     var vm = this;
-    var db = {};
   
     $scope.$watch('vm.professoresSelected', function(newValue) {
       if (!vm.curso) {
@@ -14,8 +13,6 @@ app.controller('cursos', function($scope, dao, pager, alert, utils) {
     }
   
     vm.initCursos = function() {
-      db.cursos = new Datastore({ filename: 'db/cursos.db', autoload: true});
-      db.professores = new Datastore({ filename: 'db/professores.db', autoload: true});
       vm.diasDaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
       vm.findCursos();
       vm.findProfessores();
