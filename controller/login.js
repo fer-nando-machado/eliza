@@ -1,40 +1,18 @@
-app.controller('login', function(db, $location, dao, utils, alert) {
+app.controller('login', function($location, dao, utils, alert) {
     var vm = this;
   
     vm.initLogin = function() {  
-      var promise = dao.ensureUniqueIndex(db.usuarios, 'login');
+      var promise = dao.ensureUniqueIndex(dao.db.usuarios, 'login');
       promise.then(function() {
         console.log('Unique constraint usuarios.login ativada com sucesso.');
       }, function(err) {
         console.log('Erro ao criar unique constraint.');
         console.log(err);
       });
-  
-      var promise = dao.find(db.usuarios, {}, {});
-      promise.then(function(docs) {
-        if (!docs.length) {
-          var usuario = {
-            nome: 'root',
-            login: 'root',
-            password: 'cm9vdA==',
-            level: '0'
-          }
-          var promise = dao.insert(db.usuarios, usuario);
-          promise.then(function(doc) {
-            console.log('Usuário root criado.');
-          }, function(err) {
-            console.log('Erro ao criar o usuário root.');
-            console.log(err);
-          });
-        }
-      }, function(err) {
-        console.log('Erro ao carregar usuários.');
-        console.log(err);
-      });
     };
   
     vm.validateLogin = function(login) {
-      var promise = dao.findOne(db.usuarios, {login: login.login, password: utils.encrypt(login.password)});
+      var promise = dao.findOne(dao.db.usuarios, {login: login.login, password: utils.encrypt(login.password)});
       promise.then(function(doc) {
         if (!doc) {
           alert.warning("Combinação de login e/ou senha inválida. Por favor, tente novamente.");
