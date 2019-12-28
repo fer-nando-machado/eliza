@@ -14,6 +14,14 @@ app.service('dao', function($q) {
       });
       return deferred.promise;
     };
+
+    this.count = function(target, query) {
+      let deferred = $q.defer();
+      target.count(query).exec(function(err, doc) {
+        err ? deferred.reject(err) : deferred.resolve(doc);
+      });
+      return deferred.promise;
+    };
   
     this.insert = function(target, doc) {
       let deferred = $q.defer();
