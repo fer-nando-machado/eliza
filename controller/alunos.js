@@ -1,9 +1,9 @@
-app.controller('alunos', function(dao, db, pager, alert, utils) {
+app.controller('alunos', function(dao, pager, alert, utils) {
     var vm = this;
   
     vm.initAlunos = function() {  
       /*
-      var promise = dao.ensureUniqueIndex(db.alunos, 'cpf');
+      var promise = dao.ensureUniqueIndex(dao.db.alunos, 'cpf');
       promise.then(function() {
         console.log('Unique constraint alunos.cpf ativada com sucesso.');
       }, function(err) {
@@ -42,7 +42,7 @@ app.controller('alunos', function(dao, db, pager, alert, utils) {
     };
   
     vm.insertAluno = function(aluno) {
-      var promise = dao.insert(db.alunos, aluno);
+      var promise = dao.insert(dao.db.alunos, aluno);
       promise.then(function(doc) {
         vm.aluno = null;
         vm.findAlunos();
@@ -55,7 +55,7 @@ app.controller('alunos', function(dao, db, pager, alert, utils) {
     };
   
     vm.updateAluno = function(aluno) {
-      var promise = dao.update(db.alunos, {_id: aluno._id}, aluno, false);
+      var promise = dao.update(dao.db.alunos, {_id: aluno._id}, aluno, false);
       promise.then(function(doc) {
         vm.aluno = null;
         vm.findAlunos();
@@ -68,7 +68,7 @@ app.controller('alunos', function(dao, db, pager, alert, utils) {
     };
   
     vm.findAlunos = function() {
-      var promise = dao.find(db.alunos, {}, {nomeSearch: 1});
+      var promise = dao.find(dao.db.alunos, {}, {nomeSearch: 1});
       promise.then(function(docs) {
         vm.alunos = docs;
         vm.setPage(1);
@@ -79,7 +79,7 @@ app.controller('alunos', function(dao, db, pager, alert, utils) {
     };
   
     vm.findAlunosByNome = function(nome) {
-      var promise = dao.find(db.alunos, {nomeSearch: utils.newRegExp(nome)}, {nomeSearch: 1});
+      var promise = dao.find(dao.db.alunos, {nomeSearch: utils.newRegExp(nome)}, {nomeSearch: 1});
       promise.then(function(docs) {
         vm.alunos = docs;
         vm.setPage(1);
@@ -91,7 +91,7 @@ app.controller('alunos', function(dao, db, pager, alert, utils) {
     };
   
     vm.findAlunoById = function(id) {
-      var promise = dao.findOne(db.alunos, {_id: id});
+      var promise = dao.findOne(dao.db.alunos, {_id: id});
       promise.then(function(doc) {
         vm.aluno = doc;
         utils.initContatos(vm.aluno);
@@ -106,7 +106,7 @@ app.controller('alunos', function(dao, db, pager, alert, utils) {
       if (!confirm('Tem certeza que deseja remover este aluno?')) {
         return;
       }
-      var promise = dao.remove(db.alunos, {_id: aluno._id}, false);
+      var promise = dao.remove(dao.db.alunos, {_id: aluno._id}, false);
       promise.then(function(count) {
         vm.aluno = null;
         vm.findAlunos();
@@ -118,7 +118,7 @@ app.controller('alunos', function(dao, db, pager, alert, utils) {
     };
   
     vm.findCursosByAluno = function(aluno) {
-      var promise = dao.find(db.cursos, {alunos: {$elemMatch: {_id: aluno._id}}}, {inicio: -1, fim: -1, nomeSearch: 1});
+      var promise = dao.find(dao.db.cursos, {alunos: {$elemMatch: {_id: aluno._id}}}, {inicio: -1, fim: -1, nomeSearch: 1});
       promise.then(function(docs) {
         docs.forEach(function (curso) {
           for (var i = 0; i < curso.alunos.length; i++) {

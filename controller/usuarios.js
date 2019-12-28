@@ -1,4 +1,4 @@
-app.controller('usuarios', function(db, dao, pager, alert, utils) {
+app.controller('usuarios', function(dao, pager, alert, utils) {
     var vm = this;
   
     vm.initUsuarios = function() {
@@ -40,7 +40,7 @@ app.controller('usuarios', function(db, dao, pager, alert, utils) {
     };
   
     vm.insertUsuario = function(usuario) {
-      var promise = dao.insert(db.usuarios, usuario);
+      var promise = dao.insert(dao.db.usuarios, usuario);
       promise.then(function(doc) {
         vm.usuario = null;
         vm.findUsuarios();
@@ -52,7 +52,7 @@ app.controller('usuarios', function(db, dao, pager, alert, utils) {
     };
   
     vm.updateUsuario = function(usuario) {
-      var promise = dao.update(db.usuarios, {_id: usuario._id}, usuario, false);
+      var promise = dao.update(dao.db.usuarios, {_id: usuario._id}, usuario, false);
       promise.then(function(doc) {
         if (utils.getCurrentUser()._id == doc._id) {
           utils.setCurrentUser(doc);
@@ -68,7 +68,7 @@ app.controller('usuarios', function(db, dao, pager, alert, utils) {
   
     vm.findUsuarios = function() {
       if (utils.isAdmin()) {
-        var promise = dao.find(db.usuarios, {"level": {$gt: "0"}}, {loginSearch: 1});
+        var promise = dao.find(dao.db.usuarios, {"level": {$gt: "0"}}, {loginSearch: 1});
         promise.then(function(docs) {
           vm.usuarios = docs;
           vm.setPage(1);
@@ -77,7 +77,7 @@ app.controller('usuarios', function(db, dao, pager, alert, utils) {
           alert.error("Ocorreu um problema ao tentar buscar os usuários. (" + err + ")");
         });
       } else {
-        var promise = dao.find(db.usuarios, {"_id": utils.getCurrentUser()._id}, {});
+        var promise = dao.find(dao.db.usuarios, {"_id": utils.getCurrentUser()._id}, {});
         promise.then(function(docs) {
           vm.usuarios = docs;
           vm.setPage(1);
@@ -89,7 +89,7 @@ app.controller('usuarios', function(db, dao, pager, alert, utils) {
     };
   
     vm.findUsuariosByLogin = function(login) {
-      var promise = dao.find(db.usuarios, {loginSearch: utils.newRegExp(login), "level": {$gt: "0"}}, {loginSearch: 1});
+      var promise = dao.find(dao.db.usuarios, {loginSearch: utils.newRegExp(login), "level": {$gt: "0"}}, {loginSearch: 1});
       promise.then(function(docs) {
         vm.usuarios = docs;
         vm.setPage(1);
@@ -101,7 +101,7 @@ app.controller('usuarios', function(db, dao, pager, alert, utils) {
     };
   
     vm.findUsuarioById = function(id) {
-      var promise = dao.findOne(db.usuarios, {_id: id});
+      var promise = dao.findOne(dao.db.usuarios, {_id: id});
       promise.then(function(doc) {
         vm.usuario = doc;
         vm.password = vm.newPassword(utils.decrypt(vm.usuario.password));
@@ -115,7 +115,7 @@ app.controller('usuarios', function(db, dao, pager, alert, utils) {
       if (!confirm('Tem certeza que deseja remover este usuário?')) {
         return;
       }
-      var promise = dao.remove(db.usuarios, {_id: usuario._id}, false);
+      var promise = dao.remove(dao.db.usuarios, {_id: usuario._id}, false);
       promise.then(function(count) {
         vm.usuario = null;
         vm.findUsuarios();

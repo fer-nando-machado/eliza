@@ -1,4 +1,6 @@
-app.service('dao', function($q) {
+app.service('dao', function($q, db) {
+    this.db = db;
+
     this.find = function(target, query, sort) {
       let deferred = $q.defer();
       target.find(query).sort(sort).exec(function(err, doc) {

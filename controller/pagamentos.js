@@ -1,4 +1,4 @@
-app.controller('pagamentos', function($scope, db, dao, pager, alert, utils) {
+app.controller('pagamentos', function($scope, dao, pager, alert, utils) {
     var vm = this;
   
     $scope.$watch('vm.alunosSelected', function(newValue) {
@@ -40,7 +40,7 @@ app.controller('pagamentos', function($scope, db, dao, pager, alert, utils) {
   
     vm.createPagamento = function(curso, alunoSelected) {
       vm.meiosSelected = [];
-      var promise = dao.findOne(db.cursos, {_id: curso._id});
+      var promise = dao.findOne(dao.db.cursos, {_id: curso._id});
       promise.then(function(doc) {
         vm.pagamento = new Object();
         vm.pagamento.curso = doc;
@@ -53,7 +53,7 @@ app.controller('pagamentos', function($scope, db, dao, pager, alert, utils) {
   
     vm.findCursos = function() {
       var hoje = utils.today();
-      var promise = dao.find(db.cursos, {}, {inicio: -1, fim: -1, nomeSearch: 1});
+      var promise = dao.find(dao.db.cursos, {}, {inicio: -1, fim: -1, nomeSearch: 1});
       promise.then(function(docs) {
         vm.cursos = docs;
         vm.setPage(1);
@@ -64,7 +64,7 @@ app.controller('pagamentos', function($scope, db, dao, pager, alert, utils) {
     };
   
     vm.findCursosByNome = function(nome) {
-      var promise = dao.find(db.cursos, {nomeSearch: utils.newRegExp(nome)}, {inicio: -1, fim: -1, nomeSearch: 1});
+      var promise = dao.find(dao.db.cursos, {nomeSearch: utils.newRegExp(nome)}, {inicio: -1, fim: -1, nomeSearch: 1});
       promise.then(function(docs) {
         vm.cursos = docs;
         vm.setPage(1);
@@ -79,7 +79,7 @@ app.controller('pagamentos', function($scope, db, dao, pager, alert, utils) {
       vm.alunosSelected = [];
       vm.alunosOptions = [];
   
-      var promise = dao.find(db.alunos, {}, {nomeSearch: 1});
+      var promise = dao.find(dao.db.alunos, {}, {nomeSearch: 1});
       promise.then(function(docs) {
         docs.forEach(function (aluno) {
           var alunoEmCurso = false;
@@ -92,7 +92,7 @@ app.controller('pagamentos', function($scope, db, dao, pager, alert, utils) {
               utils.getSituacaoPlano(aluno.curso.plano, true);
   
               aluno.curso.plano.pagamentos.forEach(function (pagamento) {
-                var promise = dao.findOne(db.usuarios, {_id: pagamento.responsavel._id});
+                var promise = dao.findOne(dao.db.usuarios, {_id: pagamento.responsavel._id});
                 promise.then(function(doc) {
                   if (doc) {
                     pagamento.responsavel.nome = doc.nome;
@@ -125,7 +125,7 @@ app.controller('pagamentos', function($scope, db, dao, pager, alert, utils) {
         return;
       }
   
-      var promise = dao.findOne(db.cursos, {_id: pagamento.curso._id});
+      var promise = dao.findOne(dao.db.cursos, {_id: pagamento.curso._id});
       promise.then(function(doc) {
         var curso = doc;
         var aluno = curso.alunos.filter(function(aluno) {
@@ -145,7 +145,7 @@ app.controller('pagamentos', function($scope, db, dao, pager, alert, utils) {
           }
         });
   
-        var promise = dao.update(db.cursos, {_id: curso._id}, curso, false);
+        var promise = dao.update(dao.db.cursos, {_id: curso._id}, curso, false);
         promise.then(function(doc) {
           vm.createPagamento(doc, aluno);
           alert.success("Pagamento efetuado.");
@@ -173,7 +173,7 @@ app.controller('pagamentos', function($scope, db, dao, pager, alert, utils) {
           }
         };
   
-        var promise = dao.insert(db.pagamentos, pagamentoLog);
+        var promise = dao.insert(dao.db.pagamentos, pagamentoLog);
         promise.then(function(doc) {
           console.log('Log de pagamento registrado.');
         }, function(err) {

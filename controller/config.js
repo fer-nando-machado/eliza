@@ -1,4 +1,4 @@
-app.controller('config', function(db, dao, alert, utils) {
+app.controller('config', function(dao, alert, utils) {
     var vm = this;
   
     vm.initConfig = function() {
@@ -6,7 +6,7 @@ app.controller('config', function(db, dao, alert, utils) {
     };
   
     vm.loadConfig = function() {
-      var promise = dao.findOne(db.config);
+      var promise = dao.findOne(dao.db.config);
       promise.then(function(doc) {
         vm.config = doc;
       }, function(err) {
@@ -23,7 +23,7 @@ app.controller('config', function(db, dao, alert, utils) {
     };
   
     vm.insertConfig = function(config) {
-      var promise = dao.insert(db.config, config);
+      var promise = dao.insert(dao.db.config, config);
       promise.then(function(doc) {
         vm.config = doc;
         utils.setCurrentConfig(doc);
@@ -35,7 +35,7 @@ app.controller('config', function(db, dao, alert, utils) {
     };
   
     vm.updateConfig = function(config) {
-      var promise = dao.update(db.config, {_id: config._id}, config, false);
+      var promise = dao.update(dao.db.config, {_id: config._id}, config, false);
       promise.then(function(doc) {
         vm.config = doc;
         utils.setCurrentConfig(doc);

@@ -1,4 +1,4 @@
-app.controller('agenda', function(db, dao, utils) {
+app.controller('agenda', function(dao, utils) {
     var vm = this;
   
     vm.initAgenda = function() {
@@ -12,7 +12,7 @@ app.controller('agenda', function(db, dao, utils) {
       var fim = utils.endOfMonth(vm.escopo);
       fim.setDate(fim.getDate() + 6 - fim.getDay());
   
-      var promise = dao.find(db.cursos, {$where: function () {
+      var promise = dao.find(dao.db.cursos, {$where: function () {
         return (!(this.inicio < inicio && this.inicio < fim && this.fim < inicio && this.fim < fim) &&
         !(this.inicio > inicio && this.inicio > fim && this.fim > inicio && this.fim > fim));
       }}, {horario:1, nomeSearch:1});

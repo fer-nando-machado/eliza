@@ -1,9 +1,9 @@
-app.controller('professores', function (db, dao, pager, alert, utils) {
+app.controller('professores', function (dao, pager, alert, utils) {
   var vm = this;
 
   vm.initProfessores = function () {
     /*
-    var promise = dao.ensureUniqueIndex(db.professores, 'cpf');
+    var promise = dao.ensureUniqueIndex(dao.db.professores, 'cpf');
     promise.then(function() {
       console.log('Unique constraint professores.cpf ativada com sucesso.');
     }, function(err) {
@@ -38,7 +38,7 @@ app.controller('professores', function (db, dao, pager, alert, utils) {
     }
   };
   vm.insertProfessor = function (professor) {
-    var promise = dao.insert(db.professores, professor);
+    var promise = dao.insert(dao.db.professores, professor);
     promise.then(function (doc) {
       vm.professor = null;
       vm.findProfessores();
@@ -50,7 +50,7 @@ app.controller('professores', function (db, dao, pager, alert, utils) {
     });
   };
   vm.updateProfessor = function (professor) {
-    var promise = dao.update(db.professores, { _id: professor._id }, professor, false);
+    var promise = dao.update(dao.db.professores, { _id: professor._id }, professor, false);
     promise.then(function (doc) {
       vm.professor = null;
       vm.findProfessores();
@@ -62,7 +62,7 @@ app.controller('professores', function (db, dao, pager, alert, utils) {
     });
   };
   vm.findProfessores = function () {
-    var promise = dao.find(db.professores, {}, { nomeSearch: 1 });
+    var promise = dao.find(dao.db.professores, {}, { nomeSearch: 1 });
     promise.then(function (docs) {
       vm.professores = docs;
       vm.setPage(1);
@@ -72,7 +72,7 @@ app.controller('professores', function (db, dao, pager, alert, utils) {
     });
   };
   vm.findProfessoresByNome = function (nome) {
-    var promise = dao.find(db.professores, { nomeSearch: utils.newRegExp(nome) }, { nomeSearch: 1 });
+    var promise = dao.find(dao.db.professores, { nomeSearch: utils.newRegExp(nome) }, { nomeSearch: 1 });
     promise.then(function (docs) {
       vm.professores = docs;
       vm.setPage(1);
@@ -83,7 +83,7 @@ app.controller('professores', function (db, dao, pager, alert, utils) {
     });
   };
   vm.findProfessorById = function (id) {
-    var promise = dao.findOne(db.professores, { _id: id });
+    var promise = dao.findOne(dao.db.professores, { _id: id });
     promise.then(function (doc) {
       vm.professor = doc;
       utils.initContatos(vm.professor);
@@ -96,7 +96,7 @@ app.controller('professores', function (db, dao, pager, alert, utils) {
     if (!confirm('Tem certeza que deseja remover este professor?')) {
       return;
     }
-    var promise = dao.remove(db.professores, { _id: professor._id }, false);
+    var promise = dao.remove(dao.db.professores, { _id: professor._id }, false);
     promise.then(function (count) {
       vm.professor = null;
       vm.findProfessores();

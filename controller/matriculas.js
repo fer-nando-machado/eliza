@@ -1,4 +1,4 @@
-app.controller('matriculas', function($scope, db, dao, alert, pager, utils) {
+app.controller('matriculas', function($scope, dao, alert, pager, utils) {
     var vm = this;
   
     $scope.$watch('vm.alunosSelected', function(newValue) {
@@ -33,7 +33,7 @@ app.controller('matriculas', function($scope, db, dao, alert, pager, utils) {
     };
   
     vm.createMatricula = function(curso) {
-      var promise = dao.findOne(db.cursos, {_id: curso._id});
+      var promise = dao.findOne(dao.db.cursos, {_id: curso._id});
       promise.then(function(doc) {
         vm.matricula = new Object();
         vm.curso = doc;
@@ -48,7 +48,7 @@ app.controller('matriculas', function($scope, db, dao, alert, pager, utils) {
   
     vm.findCursos = function() {
       var hoje = utils.today();
-      var promise = dao.find(db.cursos, {$where: function () {
+      var promise = dao.find(dao.db.cursos, {$where: function () {
         return this.fim > hoje;
       }}, {inicio: -1, fim: -1, nomeSearch: 1});
       promise.then(function(docs) {
@@ -62,7 +62,7 @@ app.controller('matriculas', function($scope, db, dao, alert, pager, utils) {
   
     vm.findCursosByNome = function(nome) {
       var hoje = utils.today();
-      var promise = dao.find(db.cursos, {$where: function () {
+      var promise = dao.find(dao.db.cursos, {$where: function () {
         return this.fim > hoje && utils.newRegExp(nome).test(this.nomeSearch);
       }}, {inicio: -1, fim: -1, nomeSearch: 1});
       promise.then(function(docs) {
@@ -80,7 +80,7 @@ app.controller('matriculas', function($scope, db, dao, alert, pager, utils) {
       vm.alunosOptions = [];
       vm.alunosEmCurso = [];
   
-      var promise = dao.find(db.alunos, {}, {nomeSearch: 1});
+      var promise = dao.find(dao.db.alunos, {}, {nomeSearch: 1});
       promise.then(function(docs) {
         docs.forEach(function (aluno) {
           var alunoEmCurso = false;
@@ -92,7 +92,7 @@ app.controller('matriculas', function($scope, db, dao, alert, pager, utils) {
               aluno.contatos = vm.getContatos(aluno);
               utils.getSituacaoPlano(aluno.curso.plano, false);
   
-              var promise = dao.findOne(db.usuarios, {_id: aluno.curso.responsavel._id});
+              var promise = dao.findOne(dao.db.usuarios, {_id: aluno.curso.responsavel._id});
               promise.then(function(doc) {
                 if (doc) {
                   aluno.curso.responsavel.nome = doc.nome;
@@ -157,7 +157,7 @@ app.controller('matriculas', function($scope, db, dao, alert, pager, utils) {
     };
   
     vm.saveMatricula = function(matricula) {
-      var promise = dao.findOne(db.cursos, {_id: matricula.curso});
+      var promise = dao.findOne(dao.db.cursos, {_id: matricula.curso});
       promise.then(function(doc) {
         var curso = doc;
         if (matricula.plano) {
@@ -173,7 +173,7 @@ app.controller('matriculas', function($scope, db, dao, alert, pager, utils) {
             nome:  utils.getCurrentUser().nome
           }
         });
-        var promise = dao.update(db.cursos, {_id: curso._id}, curso, false);
+        var promise = dao.update(dao.db.cursos, {_id: curso._id}, curso, false);
         promise.then(function(doc) {
           vm.createMatricula(doc);
           alert.success("Matrícula efetuada.");
@@ -191,13 +191,13 @@ app.controller('matriculas', function($scope, db, dao, alert, pager, utils) {
       if (!confirm('Tem certeza que deseja remover esta matrícula?')) {
         return;
       }
-      var promise = dao.findOne(db.cursos, {_id: cursoId});
+      var promise = dao.findOne(dao.db.cursos, {_id: cursoId});
       promise.then(function(doc) {
         var curso = doc;
         curso.alunos = curso.alunos.filter(function(aluno) {
           return aluno._id != alunoId;
         });
-        var promise = dao.update(db.cursos, {_id: curso._id}, curso, false);
+        var promise = dao.update(dao.db.cursos, {_id: curso._id}, curso, false);
         promise.then(function(doc) {
           vm.createMatricula(doc);
           alert.success("Matrícula removida.");

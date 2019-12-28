@@ -1,4 +1,4 @@
-app.controller('cursos', function($scope, db, dao, pager, alert, utils) {
+app.controller('cursos', function($scope, dao, pager, alert, utils) {
     var vm = this;
   
     $scope.$watch('vm.professoresSelected', function(newValue) {
@@ -49,7 +49,7 @@ app.controller('cursos', function($scope, db, dao, pager, alert, utils) {
     };
   
     vm.insertCurso = function(curso) {
-      var promise = dao.insert(db.cursos, curso);
+      var promise = dao.insert(dao.db.cursos, curso);
       promise.then(function(doc) {
         vm.curso = null;
         vm.findCursos();
@@ -61,7 +61,7 @@ app.controller('cursos', function($scope, db, dao, pager, alert, utils) {
     };
   
     vm.updateCurso = function(curso) {
-      var promise = dao.update(db.cursos, {_id: curso._id}, curso, false);
+      var promise = dao.update(dao.db.cursos, {_id: curso._id}, curso, false);
       promise.then(function(doc) {
         vm.curso = null;
         vm.findCursos();
@@ -73,7 +73,7 @@ app.controller('cursos', function($scope, db, dao, pager, alert, utils) {
     };
   
     vm.findCursos = function() {
-      var promise = dao.find(db.cursos, {}, {inicio: -1, fim: -1, nomeSearch: 1});
+      var promise = dao.find(dao.db.cursos, {}, {inicio: -1, fim: -1, nomeSearch: 1});
       promise.then(function(docs) {
         vm.cursos = docs;
         vm.setPage(1);
@@ -84,7 +84,7 @@ app.controller('cursos', function($scope, db, dao, pager, alert, utils) {
     };
   
     vm.findCursosByNome = function(nome) {
-      var promise = dao.find(db.cursos, {nomeSearch: utils.newRegExp(nome)}, {inicio: -1, fim: -1, nomeSearch: 1});
+      var promise = dao.find(dao.db.cursos, {nomeSearch: utils.newRegExp(nome)}, {inicio: -1, fim: -1, nomeSearch: 1});
       promise.then(function(docs) {
         vm.cursos = docs;
         vm.setPage(1);
@@ -96,7 +96,7 @@ app.controller('cursos', function($scope, db, dao, pager, alert, utils) {
     };
   
     vm.findCursoById = function(id) {
-      var promise = dao.findOne(db.cursos, {_id: id});
+      var promise = dao.findOne(dao.db.cursos, {_id: id});
       promise.then(function(doc) {
         vm.curso = doc;
         vm.professoresSelected = vm.professoresOptions.filter(function(p) {
@@ -112,7 +112,7 @@ app.controller('cursos', function($scope, db, dao, pager, alert, utils) {
       if (!confirm('Tem certeza que deseja remover este curso?')) {
         return;
       }
-      var promise = dao.remove(db.cursos, {_id: curso._id}, false);
+      var promise = dao.remove(dao.db.cursos, {_id: curso._id}, false);
       promise.then(function(count) {
         vm.curso = null;
         vm.findCursos();
@@ -124,7 +124,7 @@ app.controller('cursos', function($scope, db, dao, pager, alert, utils) {
     };
   
     vm.findProfessores = function() {
-      var promise = dao.find(db.professores, {}, {nomeSearch: 1});
+      var promise = dao.find(dao.db.professores, {}, {nomeSearch: 1});
       promise.then(function(docs) {
         vm.professoresOptions = docs;
         vm.professoresSelected = [];
