@@ -2,11 +2,11 @@
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">
+        <span class="navbar-brand">
           <img src="img/logo.png" />
-        </a>
+        </span>
       </div>
-      <ul class="nav navbar-nav" ng-show="utils.getCurrentUser()">
+      <ul class="nav navbar-nav" ng-show="utils.isReal()">
         <li ng-class="{active: vm.isActive('agenda')}">
           <a ng-click="vm.go('agenda')"><span class="glyphicon glyphicon-calendar"></span> Agenda</a>
         </li>
