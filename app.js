@@ -1,8 +1,7 @@
-app.run(['$rootScope', '$location', 'dao', 'utils', function($rootScope, $location, dao, utils) {
+app.run(['$rootScope', 'navigator', 'dao', 'utils', 'alert', function($rootScope, navigator, dao, utils, alert) {
   $rootScope.utils = utils;
-
   loadConfig(dao, utils);
-  createRootUser(dao);
+  redirectToSetupOrLogin(dao, navigator, utils, alert);
 }]);
 
 async function loadConfig(dao, utils) {
@@ -14,19 +13,18 @@ async function loadConfig(dao, utils) {
   }
 }
 
-async function createRootUser(dao) {
+async function redirectToSetupOrLogin(dao, navigator, utils, alert) {
   try {
     const users = await dao.count(dao.db.usuarios, {});
     if (users == 0) {
-      const newUser = {
-        nome: 'root',
-        login: 'root',
-        password: 'cm9vdA==',
-        level: '0'
-      }
-      dao.insert(dao.db.usuarios, newUser);
+      utils.setCurrentUser({_id: '', level: '0'});
+      navigator.go(route.usuarios);
+      alert.info("Crie um usuário para começar a usar o Eliza.");
+    } else {
+      navigator.go(route.login);
     }
   } catch(err) {
     console.log(err);
   }
-};
+}
+

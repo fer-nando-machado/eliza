@@ -19,20 +19,31 @@ app.factory('utils', function ($rootScope, $filter, $sce) {
       { _id: 3, label: 'Cheque' }
     ],
     levelOptions: [
-      'Root', 'Administrador', 'Operador'
+      'Primeiro Acesso', 'Administrador', 'Operador'
     ],
+    // extract user fns to their own file
     getCurrentUser: function () {
       return $rootScope.user;
     },
     setCurrentUser: function (user) {
       $rootScope.user = user;
     },
-    isAdmin: function () {
-      if (this.getCurrentUser().level == "0" || this.getCurrentUser().level == "1") {
-        return true;
-      }
-      return false;
+    isRoot: function () {
+      return this.getCurrentUser().level == "0";
     },
+    isAdmin: function () {
+      return this.getCurrentUser().level == "1";
+    },
+    isUser: function () {
+      return this.getCurrentUser().level == "2";
+    },
+    isReal: function () {
+      return this.getCurrentUser() && !this.isRoot();
+    },
+    isThis: function (id) {
+      return this.getCurrentUser() && this.getCurrentUser()._id == id;
+    },
+
     getCurrentConfig: function () {
       return $rootScope.config;
     },

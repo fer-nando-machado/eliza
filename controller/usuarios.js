@@ -1,4 +1,4 @@
-app.controller('usuarios', function(dao, pager, alert, utils) {
+app.controller('usuarios', function(dao, pager, alert, utils, navigator) {
     var vm = this;
   
     vm.initUsuarios = function() {
@@ -38,6 +38,14 @@ app.controller('usuarios', function(dao, pager, alert, utils) {
         vm.insertUsuario(usuario);
       }
     };
+
+    vm.saveUsuarioAndRestart = function(usuario) {
+      vm.saveUsuario(usuario);
+      // trocar por logout
+      utils.setCurrentUser(undefined);
+      navigator.go(route.login);
+      alert.success("Faça login com o seu usuário para começar a usar o Eliza.");
+    }
   
     vm.insertUsuario = function(usuario) {
       var promise = dao.insert(dao.db.usuarios, usuario);
@@ -68,7 +76,7 @@ app.controller('usuarios', function(dao, pager, alert, utils) {
   
     vm.findUsuarios = function() {
       if (utils.isAdmin()) {
-        var promise = dao.find(dao.db.usuarios, {"level": {$gt: "0"}}, {loginSearch: 1});
+        var promise = dao.find(dao.db.usuarios, {}, {loginSearch: 1});
         promise.then(function(docs) {
           vm.usuarios = docs;
           vm.setPage(1);
