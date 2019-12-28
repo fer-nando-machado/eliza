@@ -1,4 +1,4 @@
-app.controller('login', function($location, dao, utils, alert) {
+app.controller('login', function(navigator, dao, utils, alert) {
     var vm = this;
   
     vm.initLogin = function() {  
@@ -33,7 +33,7 @@ app.controller('login', function($location, dao, utils, alert) {
     };
   
     vm.go = function(path) {
-      $location.path(path);
+      navigator.go(path);
     };
   
   });

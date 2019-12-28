@@ -20,6 +20,22 @@
       const path = require('path');
       const Datastore = require('nedb');
       const Normalizer = require('normalize-strings');
+
+      const route = {
+        login: '/login',
+        agenda: '/agenda',
+        alunos: '/alunos',
+        professores: '/professores',
+        cursos: '/cursos',
+        matriculas: '/matriculas',
+        pagamentos: '/pagamentos',
+        relatorios: '/relatorios',
+        config: '/config',
+        credits: '/credits',
+        usuarios: '/usuarios',
+        splash: '/splash',
+      };
+
       require('angular');
       require('angular-route');
       require('angular-messages');

@@ -1,39 +1,42 @@
 app.config(function ($routeProvider) {
   $routeProvider.
-    when('/login', {
+    when(route.login, {
       templateUrl: 'view/login.html'
     }).
-    when('/agenda', {
+    when(route.agenda, {
       templateUrl: 'view/agenda.html'
     }).
-    when('/alunos', {
+    when(route.alunos, {
       templateUrl: 'view/alunos.html'
     }).
-    when('/professores', {
-      templateUrl: 'view/professores.html',
+    when(route.professores, {
+      templateUrl: 'view/professores.html'
     }).
-    when('/cursos', {
+    when(route.cursos, {
       templateUrl: 'view/cursos.html'
     }).
-    when('/matriculas', {
+    when(route.matriculas, {
       templateUrl: 'view/matriculas.html'
     }).
-    when('/pagamentos', {
+    when(route.pagamentos, {
       templateUrl: 'view/pagamentos.html'
     }).
-    when('/relatorios', {
-      templateUrl: 'view/relatorios.html',
+    when(route.relatorios, {
+      templateUrl: 'view/relatorios.html'
     }).
-    when('/config', {
-      templateUrl: 'view/config.html',
+    when(route.config, {
+      templateUrl: 'view/config.html'
     }).
-    when('/credits', {
-      templateUrl: 'view/credits.html',
+    when(route.credits, {
+      templateUrl: 'view/credits.html'
     }).
-    when('/usuarios', {
-      templateUrl: 'view/usuarios.html',
+    when(route.usuarios, {
+      templateUrl: 'view/usuarios.html'
+    }).
+    when(route.splash, {
+      templateUrl: 'view/splash.html'
     }).
     otherwise({
-      redirectTo: '/login'
+      redirectTo: route.splash,
     });
 });

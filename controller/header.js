@@ -1,12 +1,13 @@
-app.controller('header', function($location) {
+app.controller('header', function(navigator) {
     var vm = this;
   
     vm.go = function(path) {
-      $location.path(path);
+      navigator.go(path);
     };
   
     vm.isActive = function(path) {
-      return $location.path() == '/'+path;
+      return navigator.where() == '/'+path;
     };
+  
   });
   
