@@ -6,7 +6,7 @@
           <img src="img/logo.png" />
         </span>
       </div>
-      <ul class="nav navbar-nav" ng-show="utils.isReal()">
+      <ul class="nav navbar-nav" ng-show="users.isReal()">
         <li ng-class="{active: vm.isActive('agenda')}">
           <a ng-click="vm.go('agenda')"><span class="glyphicon glyphicon-calendar"></span> Agenda</a>
         </li>
@@ -32,7 +32,7 @@
           <a ng-click="vm.go('usuarios')"><span class="glyphicon glyphicon-lock"></span> Usuários</a>
         </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right" ng-show="utils.getCurrentUser()">
+      <ul class="nav navbar-nav navbar-right" ng-show="users.getCurrent()">
         <li ng-class="{active: vm.isActive('config')}"><a ng-click="vm.go('config')"><span class="glyphicon glyphicon-cog"></span></a></li>
       </ul>
     </div>

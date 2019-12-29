@@ -1,4 +1,4 @@
-app.controller('login', function(navigator, dao, utils, alert) {
+app.controller('login', function(navigator, dao, utils, users, alert) {
     var vm = this;
   
     vm.initLogin = function() {  
@@ -19,7 +19,7 @@ app.controller('login', function(navigator, dao, utils, alert) {
         } else {
           vm.go('agenda');
           alert.info("Iniciando sessão de " + doc.login + ".");
-          utils.setCurrentUser(doc);
+          users.setCurrent(doc);
         }
       }, function(err) {
         console.log(err);
@@ -28,8 +28,8 @@ app.controller('login', function(navigator, dao, utils, alert) {
     };
   
     vm.logout = function() {
-      alert.info("Encerrando sessão de " + utils.getCurrentUser().login + ".");
-      utils.setCurrentUser(undefined);
+      alert.info("Encerrando sessão de " + users.getCurrent().login + ".");
+      users.logout();
     };
   
     vm.go = function(path) {

@@ -1,4 +1,4 @@
-app.controller('pagamentos', function($scope, dao, pager, alert, utils) {
+app.controller('pagamentos', function($scope, dao, users, pager, alert, utils) {
     var vm = this;
   
     $scope.$watch('vm.alunosSelected', function(newValue) {
@@ -140,8 +140,8 @@ app.controller('pagamentos', function($scope, dao, pager, alert, utils) {
           data: data,
           observacao: pagamento.observacao,
           responsavel: {
-            _id:  utils.getCurrentUser()._id,
-            nome:  utils.getCurrentUser().nome
+            _id:  users.getCurrent()._id,
+            nome:  users.getCurrent().nome
           }
         });
   
@@ -168,8 +168,8 @@ app.controller('pagamentos', function($scope, dao, pager, alert, utils) {
           data: data,
           observacao: pagamento.observacao,
           responsavel: {
-            _id:  utils.getCurrentUser()._id,
-            nome:  utils.getCurrentUser().nome
+            _id:  users.getCurrent()._id,
+            nome:  users.getCurrent().nome
           }
         };
   

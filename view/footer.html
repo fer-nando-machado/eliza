@@ -5,7 +5,7 @@
         <li>
           <div ng-hide="alert.visible">
             <a class="credits" ng-click="vm.go('login')">
-              {{utils.getCurrentUser().login}}
+              {{users.getCurrent().login}}
             </a>
           </div>
           <div ng-show="alert.visible" class="alert {{alert.type}}">

@@ -1,4 +1,4 @@
-app.controller('usuarios', function(dao, pager, alert, utils, navigator) {
+app.controller('usuarios', function(dao, users, pager, alert, utils, navigator) {
     var vm = this;
   
     vm.initUsuarios = function() {
@@ -42,7 +42,7 @@ app.controller('usuarios', function(dao, pager, alert, utils, navigator) {
     vm.saveUsuarioAndRestart = function(usuario) {
       vm.saveUsuario(usuario);
       // trocar por logout
-      utils.setCurrentUser(undefined);
+      users.logout();
       navigator.go(route.login);
       alert.success("Faça login com o seu usuário para começar a usar o Eliza.");
     }
@@ -62,8 +62,8 @@ app.controller('usuarios', function(dao, pager, alert, utils, navigator) {
     vm.updateUsuario = function(usuario) {
       var promise = dao.update(dao.db.usuarios, {_id: usuario._id}, usuario, false);
       promise.then(function(doc) {
-        if (utils.getCurrentUser()._id == doc._id) {
-          utils.setCurrentUser(doc);
+        if (users.getCurrent()._id == doc._id) {
+          users.setCurrent(doc);
         }
         vm.usuario = null;
         vm.findUsuarios();
@@ -75,7 +75,7 @@ app.controller('usuarios', function(dao, pager, alert, utils, navigator) {
     };
   
     vm.findUsuarios = function() {
-      if (utils.isAdmin()) {
+      if (users.isAdmin()) {
         var promise = dao.find(dao.db.usuarios, {}, {loginSearch: 1});
         promise.then(function(docs) {
           vm.usuarios = docs;
@@ -85,7 +85,7 @@ app.controller('usuarios', function(dao, pager, alert, utils, navigator) {
           alert.error("Ocorreu um problema ao tentar buscar os usuários. (" + err + ")");
         });
       } else {
-        var promise = dao.find(dao.db.usuarios, {"_id": utils.getCurrentUser()._id}, {});
+        var promise = dao.find(dao.db.usuarios, {"_id": users.getCurrent()._id}, {});
         promise.then(function(docs) {
           vm.usuarios = docs;
           vm.setPage(1);

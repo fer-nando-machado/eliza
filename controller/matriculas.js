@@ -1,4 +1,4 @@
-app.controller('matriculas', function($scope, dao, alert, pager, utils) {
+app.controller('matriculas', function($scope, dao, users, alert, pager, utils) {
     var vm = this;
   
     $scope.$watch('vm.alunosSelected', function(newValue) {
@@ -169,8 +169,8 @@ app.controller('matriculas', function($scope, dao, alert, pager, utils) {
           plano: matricula.plano,
           observacao: matricula.observacao,
           responsavel: {
-            _id:  utils.getCurrentUser()._id,
-            nome:  utils.getCurrentUser().nome
+            _id:  users.getCurrent()._id,
+            nome:  users.getCurrent().nome
           }
         });
         var promise = dao.update(dao.db.cursos, {_id: curso._id}, curso, false);

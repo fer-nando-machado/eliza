@@ -2,9 +2,9 @@
   <div class="col-sm-4 col-md-4 col-lg-4 col-xs-4">
     <form novalidate>
       <div class="input-group clear">
-        <input type="text" class="form-control" ng-model="vm.query" ng-disabled="!utils.isAdmin()" />
+        <input type="text" class="form-control" ng-model="vm.query" ng-disabled="!users.isAdmin()" />
         <div class="input-group-btn">
-          <button type="submit" class="btn btn-default" ng-click="vm.findUsuariosByLogin(vm.query)" ng-disabled="!utils.isAdmin()">
+          <button type="submit" class="btn btn-default" ng-click="vm.findUsuariosByLogin(vm.query)" ng-disabled="!users.isAdmin()">
             <span class="glyphicon glyphicon-search"></span>
           </button>
         </div>
@@ -25,14 +25,14 @@
             <tr class="table-clickable" ng-repeat="item in vm.items" ng-click="vm.findUsuarioById(item._id)">
               <td>{{item.login}}</td>
               <td>{{item.nome}}</td>
-              <td class="minimal-width no-wrap">{{utils.levelOptions[item.level]}}</td>
+              <td class="minimal-width no-wrap">{{users.labels[item.level]}}</td>
             </tr>
             <tr ng-if="!vm.items.length">
               <td colspan="3">Nenhum usuário encontrado.</td>
             </tr>
             <tr>
               <td colspan="3" class="panel-footer">
-                <button class="btn btn-primary" type="button" ng-click="vm.createUsuario(vm.query)" ng-disabled="utils.isUser()">
+                <button class="btn btn-primary" type="button" ng-click="vm.createUsuario(vm.query)" ng-disabled="users.isUser()">
                   <span class="glyphicon glyphicon-plus"></span> Criar
                 </button>
                 <pager vm="vm" />
@@ -81,33 +81,33 @@
 
             <div class="input-group">
               <span class="input-group-addon">Acesso</span>
-              <div class="form-control" ng-if="(utils.isRoot() || utils.isAdmin()) && !utils.isThis(vm.usuario._id)">
+              <div class="form-control" ng-if="(users.isRoot() || users.isAdmin()) && !users.isThis(vm.usuario._id)">
                 <label class="radio-inline">
-                  <input type="radio" name="level" ng-model="vm.usuario.level" value="1" required /> {{utils.levelOptions[1]}}
+                  <input type="radio" name="level" ng-model="vm.usuario.level" value="1" required /> {{users.labels[1]}}
                 </label>
-                <label class="radio-inline" ng-if="!utils.isRoot()">
-                  <input type="radio" name="level" ng-model="vm.usuario.level" value="2" required /> {{utils.levelOptions[2]}}
+                <label class="radio-inline" ng-if="!users.isRoot()">
+                  <input type="radio" name="level" ng-model="vm.usuario.level" value="2" required /> {{users.labels[2]}}
                 </label>
               </div>
               <span class="input-group-addon" ng-messages="form.level.$error" ng-if="form.level.$invalid">
                 <span ng-messages-include="view/messages.html"></span>
               </span>
-              <input type="text" class="form-control" ng-if="utils.isUser() || utils.isThis(vm.usuario._id)" ng-value="utils.levelOptions[vm.usuario.level]" disabled />
+              <input type="text" class="form-control" ng-if="users.isUser() || users.isThis(vm.usuario._id)" ng-value="users.labels[vm.usuario.level]" disabled />
             </div>
           </div>
 
-          <div class="panel-footer" ng-if="!utils.isRoot()">
+          <div class="panel-footer" ng-if="!users.isRoot()">
             <button type="submit" class="btn btn-success" ng-disabled="form.$invalid || vm.password.error" ng-click="vm.saveUsuario(vm.usuario)">
               <span class="glyphicon glyphicon-ok"></span> Salvar
             </button>
             <button type="button" class="btn btn-danger" ng-if="vm.usuario._id" ng-click="vm.removeUsuario(vm.usuario)"
-              ng-disabled="utils.isUser() || utils.isThis(vm.usuario._id)" >
+              ng-disabled="users.isUser() || users.isThis(vm.usuario._id)" >
               <span class="glyphicon glyphicon-remove"></span> Remover
             </button>
           </div>
-          <div class="panel-footer" ng-if="utils.isRoot()">
+          <div class="panel-footer" ng-if="users.isRoot()">
             <button type="submit" class="btn btn-success" ng-disabled="form.$invalid || vm.password.error" ng-click="vm.saveUsuarioAndRestart(vm.usuario)">
-              <span class="glyphicon glyphicon-ok"></span> Salvar e Iniciar
+              <span class="glyphicon glyphicon-ok"></span> Salvar e iniciar
             </button>
           </div>
 
