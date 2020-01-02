@@ -3,8 +3,9 @@
     <div class="container-fluid">
       <ul class="nav navbar-text">
         <li>
-          <div ng-hide="alert.visible">
+          <div ng-show="users.isReal() && !alert.visible">
             <a class="credits" ng-click="vm.go('login')">
+              <span class="glyphicon glyphicon-user"></span>
               {{users.getCurrent().login}}
             </a>
           </div>
