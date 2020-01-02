@@ -8,9 +8,9 @@
               {{users.getCurrent().login}}
             </a>
           </div>
-          <div ng-show="alert.visible" class="alert {{alert.type}}">
+          <div ng-show="alert.visible" class="alert {{alert.type}}" ng-click="alert.dismiss()">
             <span ng-bind-html="alert.message"></span>
-            <span class="alert-dismiss" ng-click="alert.dismiss()">&times;</span>
+            <span class="alert-dismiss">&times;</span>
           </div>
         </li>
       </ul>
