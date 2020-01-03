@@ -20,6 +20,9 @@ function createWindow() {
     height: 768,
     minWidth: 960,
     minHeight: 720,
+    webPreferences: {
+      nodeIntegration: true
+    },
   });
 
   // and load the index.html of the app.
