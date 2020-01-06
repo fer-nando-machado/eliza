@@ -18,8 +18,11 @@
     <script>
       const requireAll = require('require-all');
       const path = require('path');
-      const Datastore = require('nedb');
       const Normalizer = require('normalize-strings');
+      const Datastore = require('nedb');
+      const fs = require('fs');
+      const firebase = require("firebase/app");
+      require("firebase/storage");
 
       const route = {
         login: '/login',
@@ -34,6 +37,7 @@
         credits: '/credits',
         usuarios: '/usuarios',
         splash: '/splash',
+        backup: '/backup',
       };
 
       require('angular');

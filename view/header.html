@@ -31,6 +31,9 @@
         <li ng-class="{active: vm.isActive('usuarios')}">
           <a ng-click="vm.go('usuarios')"><span class="glyphicon glyphicon-user"></span> Usuários</a>
         </li>
+        <li ng-class="{active: vm.isActive('backup')}">
+          <a ng-click="vm.go('backup')"><span class="glyphicon glyphicon-cloud"></span> Backup</a>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right" ng-show="users.getCurrent()">
         <li ng-class="{active: vm.isActive('config')}"><a ng-click="vm.go('config')"><span class="glyphicon glyphicon-cog"></span></a></li>
