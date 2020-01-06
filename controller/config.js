@@ -1,6 +1,10 @@
 app.controller('config', function(dao, alert, utils) {
     var vm = this;
-  
+
+    const defaultConfig = {
+      pageSize: 10,
+    };
+
     vm.initConfig = function() {
       vm.loadConfig();
     };
@@ -8,7 +12,8 @@ app.controller('config', function(dao, alert, utils) {
     vm.loadConfig = function() {
       var promise = dao.findOne(dao.db.config);
       promise.then(function(doc) {
-        vm.config = doc;
+        const config = {...defaultConfig, ...doc};
+        vm.config = config;
       }, function(err) {
         console.log(err);
       });
@@ -29,8 +34,8 @@ app.controller('config', function(dao, alert, utils) {
         utils.setCurrentConfig(doc);
         alert.success("Configurações atualizadas.");
       }, function(err) {
-        console.log(err);
-        alert.error("Ocorreu um problema ao atualizar as configurações. (" + err + ")");
+        console.error(err);
+        alert.error("Ocorreu um problema ao atualizar as configurações.");
       });
     };
   
@@ -41,8 +46,8 @@ app.controller('config', function(dao, alert, utils) {
         utils.setCurrentConfig(doc);
         alert.success("Configurações atualizadas.");
       }, function(err) {
-        console.log(err);
-        alert.error("Ocorreu um problema ao atualizar as configurações. (" + err + ")");
+        console.error(err);
+        alert.error("Ocorreu um problema ao atualizar as configurações.");
       });
     };
   });

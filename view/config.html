@@ -5,13 +5,31 @@
         <div class="panel panel-default">
           <div class="panel-heading"><div class="panel-title">Configurações</div></div>
           <div class="panel-body">
+            <h5>Geral</h5>
             <div class="input-group">
-              <span class="input-group-addon">Ítens por página</span>
-              <input type="number" class="form-control" name="pageSize" ng-model="vm.config.pageSize" min="1" max="999" />
+              <span class="input-group-addon">Número de ítens por página</span>
+              <input type="number" class="form-control" name="pageSize" ng-model="vm.config.pageSize" min="1" max="100" required />
               <span class="input-group-addon" ng-messages="form.pageSize.$error" ng-if="form.pageSize.$invalid">
                 <span ng-messages-include="view/messages.html"></span>
               </span>
             </div>
+            <br/>
+            <h5>Firebase</h5>
+            <div class="input-group">
+              <span class="input-group-addon">Project ID</span>
+              <input type="text" class="form-control" name="projectId" ng-model="vm.config.projectId" />
+              <span class="input-group-addon" ng-messages="form.projectId.$error" ng-if="form.projectId.$invalid">
+                <span ng-messages-include="view/messages.html"></span>
+              </span>
+            </div>      
+            <div class="input-group">
+              <span class="input-group-addon">API Key</span>
+              <input type="text" class="form-control" name="apiKey" ng-model="vm.config.apiKey" />
+              <span class="input-group-addon" ng-messages="form.apiKey.$error" ng-if="form.apiKey.$invalid">
+                <span ng-messages-include="view/messages.html"></span>
+              </span>
+            </div>
+            https://firebase.google.com/docs/web/setup
           </div>
           <div class="panel-footer">
             <button type="submit" class="btn btn-success" ng-disabled="form.$invalid" ng-click="vm.saveConfig(vm.config)">
