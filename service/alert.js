@@ -17,15 +17,15 @@ app.service('alert', function ($rootScope, $timeout, utils) {
     };
   };
   this.success = function (message) {
-    $rootScope.alert = this.alertMessage("<strong>Sucesso!</strong> " + message, "alert-success");
+    $rootScope.alert = this.alertMessage(message, "alert-success");
   };
   this.info = function (message) {
-    $rootScope.alert = this.alertMessage("<strong>Aviso!</strong> " + message, "alert-info");
+    $rootScope.alert = this.alertMessage(message, "alert-info");
   };
   this.warning = function (message) {
-    $rootScope.alert = this.alertMessage("<strong>Atenção!</strong> " + message, "alert-warning");
+    $rootScope.alert = this.alertMessage(message, "alert-warning");
   };
   this.error = function (message) {
-    $rootScope.alert = this.alertMessage("<strong>Erro!</strong> " + message, "alert-danger");
+    $rootScope.alert = this.alertMessage(message, "alert-danger");
   };
 });
