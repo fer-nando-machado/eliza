@@ -23,6 +23,10 @@ a.credits {
   padding-right: 24px;
 }
 
+a.credits:hover {
+  color: white;
+}
+
 a.credits:hover .glyphicon-heart {
   color: red;
 }
