@@ -40,13 +40,6 @@ function createWindow() {
   //require('devtron').install();
   //require('electron-debug')({showDevTools: true});
 
-  require('electron-context-menu')({
-    prepend: (params, browserWindow) => [{
-        //label: 'Options',
-        visible: true
-    }]
-  });
-
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows

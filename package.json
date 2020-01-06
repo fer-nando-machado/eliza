@@ -30,7 +30,6 @@
     "api-check": "^7.5.5",
     "bootstrap": "^3.4.1",
     "bootstrap-select": "^1.12.2",
-    "electron-context-menu": "^0.15.2",
     "firebase": "^7.6.1",
     "jquery": "^3.4.1",
     "nedb": "^1.8.0",
