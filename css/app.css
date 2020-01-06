@@ -71,10 +71,6 @@ a:link, a:visited, a:hover, a:active {
   font-weight: bold;
 }
 
-.alert-dismiss:hover {
-  font-weight: normal;
-}
-
 textarea {
   resize: none;
 }
