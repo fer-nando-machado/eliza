@@ -55,12 +55,14 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
         promises.push(promise);
       });
 
-      Promise.all(promises).then((values) => {
+      Promise.all(promises).then((files) => {
         alert.success('Backup criado com sucesso!');
         vm.findBackups();
       }).catch(err => { 
         alert.error('Ocorreu um erro ao tentar criar o backup.');
         console.error(err);
+      }).finally(() => {
+        $scope.$broadcast('finished')
       });
     };
   
