@@ -1,18 +1,22 @@
 app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
     var vm = this;
-  
+
     vm.initBackup = function() {  
-      initializeFirebase();
+      const apiKey = utils.getCurrentConfig().apiKey;
+      const projectId = utils.getCurrentConfig().projectId;
+      if (!apiKey || !projectId) {
+        navigator.go(route.splash);
+        alert.warning("As configurações do Firebase não foram encontradas.")
+        return;
+      }
+      initializeFirebase(apiKey, projectId);
       vm.findBackups();
     };
 
-    function initializeFirebase() {
+    function initializeFirebase(apiKey, projectId) {
       if (firebase.apps.length == 1) {
         return;
       }
-      const apiKey = utils.getCurrentConfig().apiKey;
-      const projectId = utils.getCurrentConfig().projectId;
-
       const firebaseConfig = {
         apiKey: apiKey,
         projectId: projectId,
@@ -29,7 +33,7 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
       }
       vm.items = vm.backups.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
     };
-  
+
     vm.createBackup = function() {
       const root = firebase.storage().ref();
       const now = new Date().getTime().toString();
@@ -94,8 +98,8 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
         result.items.forEach(item => {
           backup.files.push(item);
         })
-        vm.backup = backup;
-        $scope.$apply();
+          vm.backup = backup;
+          $scope.$apply();
       }).catch(err => {
         alert.error('Ocorreu um erro ao tentar buscar os backups.');
         console.log(err);
