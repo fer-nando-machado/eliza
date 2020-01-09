@@ -16,13 +16,13 @@ app.factory('users', function ($rootScope) {
         this.setCurrent(undefined);
       },
       isRoot: function () {
-        return this.getCurrent().level == "0";
+        return this.getCurrent() && this.getCurrent().level == "0";
       },
       isAdmin: function () {
-        return this.getCurrent().level == "1";
+        return this.getCurrent() && this.getCurrent().level == "1";
       },
       isUser: function () {
-        return this.getCurrent().level == "2";
+        return this.getCurrent() && this.getCurrent().level == "2";
       },
       isReal: function () {
         return this.getCurrent() && !this.isRoot();
