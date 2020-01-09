@@ -1,7 +1,7 @@
 app.service('alert', function ($rootScope, $timeout, utils) {
   this.alertMessage = function (message, type) {
     var promise = $timeout(function () {
-      if ($rootScope.alert) {
+      if ($rootScope.alert && $rootScope.alert.dismiss) {
         $rootScope.alert.dismiss();
       }
     }, 3000);
