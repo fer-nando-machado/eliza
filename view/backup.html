@@ -21,7 +21,7 @@
           </thead>
           <tbody>
             <tr class="table-clickable" ng-repeat="item in vm.items" ng-click="vm.findBackupById(item._id)">
-              <td>{{item.date | date:'dd/MM/yyyy hh:mm:ss'}}</td>
+              <td>{{item.date | date:'dd/MM/yyyy HH:mm:ss'}}</td>
             </tr>
             <tr ng-if="!vm.items.length">
               <td>Nenhum backup encontrado.</td>
@@ -48,7 +48,11 @@
           <div class="panel-body">
             <div class="input-group">
               <span class="input-group-addon">Data</span>
-              <input type="text" class="form-control" value="{{vm.backup.date | date:'dd/MM/yyyy hh:mm:ss'}}" disabled />
+              <input type="text" class="form-control" value="{{vm.backup.date | date:'dd/MM/yyyy HH:mm:ss'}}" disabled />
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Tamanho</span>
+              <input type="text" class="form-control" value="{{vm.backup.size}} bytes" disabled />
             </div>
           </div>
           <div class="panel-footer">

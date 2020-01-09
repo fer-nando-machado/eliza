@@ -94,14 +94,31 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
         let backup = {
           _id: id,
           date: new Date(new Number(id)),
-          files: []
+          files: [],
+          size: 0,
         }
-        // render files on page
+
+        let promises = [];
         result.items.forEach(item => {
-          backup.files.push(item);
-        })
+          promises.push(item.getMetadata());
+        });
+
+        Promise.all(promises).then((files) => {
+          files.forEach(file => {
+            backup.files.push({
+              name: file.name,
+              size: file.size,
+              ref: file.ref,
+            });
+            backup.size += file.size;
+          });
           vm.backup = backup;
+        }).catch(err => { 
+          alert.error('Ocorreu um erro ao tentar criar o backup.');
+          console.error(err);
+        }).finally(() => {
           $scope.$apply();
+        });
       }).catch(err => {
         alert.error('Ocorreu um erro ao tentar buscar os backups.');
         console.log(err);
