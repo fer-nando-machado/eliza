@@ -122,6 +122,9 @@ app.factory('utils', function ($rootScope, $filter, $sce) {
     getDouble: function (value, size) {
       return $filter('number')(value, size);
     },
+    formatDate: function (value, mask) {
+      return $filter('date')(value, mask);
+    },
     getPlanoLabel: function (plano, displayTotal) {
       if (!plano.parcelas || !plano.valor) {
         return this.getBolsaLabel();
