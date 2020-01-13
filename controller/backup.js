@@ -70,6 +70,7 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
     };
   
     vm.findBackups = function() {
+      vm.failedToInitialize = true;
       const root = firebase.storage().ref();
       let backups = [];
       root.listAll().then((result) => {
@@ -81,6 +82,7 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
         })
         backups.sort((a,b) => b.date - a.date);
         vm.backups = backups;
+        vm.failedToInitialize = false;
         vm.setPage(1);
         $scope.$apply();
       }).catch(err => {
