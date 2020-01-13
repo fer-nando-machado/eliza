@@ -4,6 +4,9 @@ const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
+const DownloadManager = require("electron-download-manager");
+DownloadManager.register({ downloadFolder: app.getAppPath() });
+
 const path = require('path');
 const url = require('url');
 

@@ -1,6 +1,9 @@
 app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
     var vm = this;
 
+    const remote = require("electron").remote;
+    const downloadManager = remote.require("electron-download-manager");
+  
     vm.initBackup = function() {  
       const apiKey = utils.getCurrentConfig().apiKey;
       const projectId = utils.getCurrentConfig().projectId;
@@ -62,7 +65,7 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
         alert.error('Ocorreu um erro ao tentar criar o backup.');
         console.error(err);
       }).finally(() => {
-        $scope.$broadcast('finished')
+        $scope.$broadcast('finished');
       });
     };
   
@@ -125,7 +128,40 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
       });
     };
 
-    // TODO allow to load backup replacing existing files 
-    // TODO user logout, config reset afterwards
+    vm.downloadBackup = function(backup) {
+      if (!confirm('Ao restaurar este backup, a aplicação será reiniciada e todos os dados ' + 
+                  'criados após ' + utils.formatDate(backup.date, "dd/MM/yyyy HH:mm:ss") + 
+                  ' serão perdidos.\nTem certeza que deseja continuar?')) {
+        return;
+      }
+
+      Object.entries(dao.db).forEach(([title, datastore]) => {
+          fs.renameSync(datastore.filename, datastore.filename + '.old');
+      });
+
+      let promises = [];
+      backup.files.forEach(file => {
+        promises.push(file.ref.getDownloadURL());
+      });
+
+      Promise.all(promises).then((files) => {
+        downloadManager.bulkDownload({
+          urls: files,
+          path: "db",
+        }, function (error, finished, errors) {
+          Object.entries(dao.db).forEach(([title, datastore]) => {
+            fs.unlinkSync(datastore.filename + '.old');
+          });
+          remote.app.relaunch();
+          remote.app.exit(0);
+        });
+      }).catch(err => { 
+        Object.entries(dao.db).forEach(([title, datastore]) => {
+          fs.renameSync(datastore.filename + '.old', datastore.filename);
+        });
+        alert.error('Ocorreu um erro ao tentar restaurar o backup.');
+        console.error(err);
+      });
+    };
 
   });
