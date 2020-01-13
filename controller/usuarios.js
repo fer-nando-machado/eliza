@@ -41,7 +41,6 @@ app.controller('usuarios', function(dao, users, pager, alert, utils, navigator) 
 
     vm.saveUsuarioAndRestart = function(usuario) {
       vm.saveUsuario(usuario);
-      // trocar por logout
       users.logout();
       navigator.go(route.login);
       alert.success("Faça login com o seu usuário para começar a usar o Eliza.");
