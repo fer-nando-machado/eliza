@@ -93,7 +93,6 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
     vm.findBackupById = function(id) {
       const root = firebase.storage().ref();
       root.child(id).listAll().then((result) => {
-        // create a build for this?
         let backup = {
           _id: id,
           date: new Date(new Number(id)),
@@ -162,6 +161,27 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
         alert.error('Ocorreu um erro ao tentar restaurar o backup.');
         console.error(err);
       });
+    };
+
+    vm.removeBackup = function(backup) {
+      if (!confirm('Tem certeza que deseja remover este backup?')) {
+        return;
+      }
+
+      let promises = [];
+      backup.files.forEach(file => {
+        promises.push(file.ref.delete());
+      });
+
+      Promise.all(promises).then((files) => {
+        alert.success("Backup removido com sucesso!");
+        vm.backup = undefined;
+        vm.findBackups();
+      }).catch(err => { 
+        alert.error('Ocorreu um erro ao tentar restaurar o backup.');
+        console.error(err);
+      });
+
     };
 
   });
