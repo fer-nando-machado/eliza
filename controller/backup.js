@@ -86,7 +86,6 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
         vm.setPage(1);
         $scope.$apply();
       }).catch(err => {
-        navigator.go(route.splash);
         alert.error('Ocorreu um erro ao tentar buscar os backups.');
         console.log(err);
       });
