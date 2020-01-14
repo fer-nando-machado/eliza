@@ -1,4 +1,4 @@
-app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
+app.controller('backup', function($scope, dao, pager, alert, utils) {
     var vm = this;
 
     const remote = require("electron").remote;
