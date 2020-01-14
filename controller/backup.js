@@ -4,16 +4,27 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
     const remote = require("electron").remote;
     const downloadManager = remote.require("electron-download-manager");
   
-    vm.initBackup = function() {  
-      const apiKey = utils.getCurrentConfig().apiKey;
-      const projectId = utils.getCurrentConfig().projectId;
-      if (!apiKey || !projectId) {
-        navigator.go(route.splash);
+    vm.initBackup = function() {
+      vm.initializing = true;
+      const apiKey = utils.getCurrentConfig().firebaseApiKey;
+      const projectId = utils.getCurrentConfig().firebaseProjectId;
+      const email = utils.getCurrentConfig().firebaseEmail;
+      const password = utils.getCurrentConfig().firebasePassword;
+
+      if (!apiKey || !projectId || !email || !password) {
         alert.warning("As configurações do Firebase não foram encontradas.")
         return;
       }
       initializeFirebase(apiKey, projectId);
-      vm.findBackups();
+      loginFirebase(email, password)
+      .then(() => {
+        vm.initializing = false;
+        vm.findBackups();
+      })
+      .catch(err => {
+        alert.error("Ocorreu um erro ao inicializar o Firebase.");
+        console.log(err);
+      });
     };
 
     function initializeFirebase(apiKey, projectId) {
@@ -24,8 +35,16 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
         apiKey: apiKey,
         projectId: projectId,
         storageBucket: projectId + ".appspot.com",
+        authDomain: projectId + ".firebaseapp.com",
       };
       firebase.initializeApp(firebaseConfig);
+    }
+
+    async function loginFirebase(email, password) {
+      if (firebase.auth().currentUser != null) {
+        await firebase.auth().signOut();
+      }
+      await firebase.auth().signInWithEmailAndPassword(email, password);
     }
   
     vm.setPage = function(page) {
@@ -71,7 +90,6 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
     };
   
     vm.findBackups = function() {
-      vm.failedToInitialize = true;
       const root = firebase.storage().ref();
       let backups = [];
       root.listAll().then((result) => {
@@ -83,7 +101,6 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
         })
         backups.sort((a,b) => b.date - a.date);
         vm.backups = backups;
-        vm.failedToInitialize = false;
         vm.setPage(1);
         $scope.$apply();
       }).catch(err => {
