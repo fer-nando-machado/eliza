@@ -14,34 +14,36 @@
               </span>
             </div>
             <br/>
-            <h5>Firebase (<a href="https://console.firebase.google.com/" target="_blank">console</a>)</h5>
-            <div class="input-group">
-              <span class="input-group-addon">Project ID</span>
-              <input type="text" class="form-control" name="firebaseProjectId" ng-model="vm.config.firebaseProjectId" />
-              <span class="input-group-addon" ng-messages="form.firebaseProjectId.$error" ng-if="form.firebaseProjectId.$invalid">
-                <span ng-messages-include="view/messages.html"></span>
-              </span>
-            </div>      
-            <div class="input-group">
-              <span class="input-group-addon">API Key</span>
-              <input type="text" class="form-control" name="firebaseApiKey" ng-model="vm.config.firebaseApiKey" />
-              <span class="input-group-addon" ng-messages="form.firebaseApiKey.$error" ng-if="form.firebaseApiKey.$invalid">
-                <span ng-messages-include="view/messages.html"></span>
-              </span>
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon">Email</span>
-              <input type="email" class="form-control" name="firebaseEmail" ng-model="vm.config.firebaseEmail" />
-              <span class="input-group-addon" ng-messages="form.firebaseEmail.$error" ng-if="form.firebaseEmail.$invalid">
-                <span ng-messages-include="view/messages.html"></span>
-              </span>
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon">Password</span>
-              <input type="password" class="form-control" name="firebasePassword" ng-model="vm.config.firebasePassword" />
-              <span class="input-group-addon" ng-messages="form.firebasePassword.$error" ng-if="form.firebasePassword.$invalid">
-                <span ng-messages-include="view/messages.html"></span>
-              </span>
+            <div ng-show="users.isAdmin()">
+              <h5>Firebase (<a href="https://console.firebase.google.com/" target="_blank">console</a>)</h5>
+              <div class="input-group">
+                <span class="input-group-addon">Project ID</span>
+                <input type="text" class="form-control" name="firebaseProjectId" ng-model="vm.config.firebaseProjectId" />
+                <span class="input-group-addon" ng-messages="form.firebaseProjectId.$error" ng-if="form.firebaseProjectId.$invalid">
+                  <span ng-messages-include="view/messages.html"></span>
+                </span>
+              </div>      
+              <div class="input-group">
+                <span class="input-group-addon">API Key</span>
+                <input type="text" class="form-control" name="firebaseApiKey" ng-model="vm.config.firebaseApiKey" />
+                <span class="input-group-addon" ng-messages="form.firebaseApiKey.$error" ng-if="form.firebaseApiKey.$invalid">
+                  <span ng-messages-include="view/messages.html"></span>
+                </span>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">Email</span>
+                <input type="email" class="form-control" name="firebaseEmail" ng-model="vm.config.firebaseEmail" />
+                <span class="input-group-addon" ng-messages="form.firebaseEmail.$error" ng-if="form.firebaseEmail.$invalid">
+                  <span ng-messages-include="view/messages.html"></span>
+                </span>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">Password</span>
+                <input type="password" class="form-control" name="firebasePassword" ng-model="vm.config.firebasePassword" />
+                <span class="input-group-addon" ng-messages="form.firebasePassword.$error" ng-if="form.firebasePassword.$invalid">
+                  <span ng-messages-include="view/messages.html"></span>
+                </span>
+              </div>
             </div>
           </div>
           <div class="panel-footer">

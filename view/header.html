@@ -31,7 +31,7 @@
         <li ng-class="{active: vm.isActive('usuarios')}">
           <a ng-click="vm.go('usuarios')"><span class="glyphicon glyphicon-user"></span> Usuários</a>
         </li>
-        <li ng-class="{active: vm.isActive('backup')}">
+        <li ng-class="{active: vm.isActive('backup')}" ng-show="users.isAdmin()">
           <a ng-click="vm.go('backup')"><span class="glyphicon glyphicon-cloud"></span> Backup</a>
         </li>
       </ul>
