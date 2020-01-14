@@ -28,27 +28,30 @@ app.controller('usuarios', function(dao, users, pager, alert, utils, navigator) 
       vm.validatePassword(vm.password);
     };
   
-    vm.saveUsuario = function(usuario) {
+    vm.saveUsuario = function(usuario, doNotReload) {
       usuario.loginSearch = utils.normalize(usuario.login);
       usuario.nomeSearch = utils.normalize(usuario.nome);
       usuario.password = utils.encrypt(vm.password.original);
       if (usuario._id) {
         vm.updateUsuario(usuario);
       } else {
-        vm.insertUsuario(usuario);
+        vm.insertUsuario(usuario, doNotReload);
       }
     };
 
     vm.saveUsuarioAndRestart = function(usuario) {
-      vm.saveUsuario(usuario);
+      vm.saveUsuario(usuario, true);
       users.logout();
       navigator.go(route.login);
-      alert.success("Faça login com o seu usuário para começar a usar o Eliza.");
+      alert.info("Faça login com o seu usuário para começar a usar o sistema.");
     }
   
-    vm.insertUsuario = function(usuario) {
+    vm.insertUsuario = function(usuario, doNotReload) {
       var promise = dao.insert(dao.db.usuarios, usuario);
       promise.then(function(doc) {
+        if (doNotReload) {
+          return;
+        }
         vm.usuario = null;
         vm.findUsuarios();
         alert.success("Usuário cadastrado.");
