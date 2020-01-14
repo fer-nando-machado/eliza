@@ -13,7 +13,9 @@ app.controller('config', function(dao, alert, utils) {
       var promise = dao.findOne(dao.db.config);
       promise.then(function(doc) {
         let config = {...defaultConfig, ...doc};
-        config.firebasePassword = utils.decrypt(config.firebasePassword);
+        if (config.firebasePassword) {
+          config.firebasePassword = utils.decrypt(config.firebasePassword);
+        }
         vm.config = config;
         utils.setCurrentConfig(config);
       }, function(err) {
@@ -23,7 +25,9 @@ app.controller('config', function(dao, alert, utils) {
   
     vm.saveConfig = function(config) {
       const configToSave = {...config};
-      configToSave.firebasePassword = utils.encrypt(configToSave.firebasePassword);
+      if (configToSave.firebasePassword) {
+        configToSave.firebasePassword = utils.encrypt(configToSave.firebasePassword);
+      }
       if (configToSave._id) {
         vm.updateConfig(configToSave);
       } else {
