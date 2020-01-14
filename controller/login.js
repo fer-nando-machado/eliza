@@ -17,7 +17,7 @@ app.controller('login', function(navigator, dao, utils, users, alert) {
         if (!doc) {
           alert.warning("Combinação de login e/ou senha inválida. Por favor, tente novamente.");
         } else {
-          vm.go('agenda');
+          vm.go(route.agenda);
           alert.info("Iniciando sessão de " + doc.login + ".");
           users.setCurrent(doc);
         }
