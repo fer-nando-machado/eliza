@@ -38,6 +38,7 @@ app.controller('backup', function($scope, dao, pager, alert, utils, navigator) {
     };
 
     vm.createBackup = function() {
+      vm.backup = undefined;
       const root = firebase.storage().ref();
       const now = new Date().getTime().toString();
 
