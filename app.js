@@ -9,6 +9,7 @@ app.run(['$rootScope', 'navigator', 'dao', 'utils', 'users', 'alert',
   async function loadConfig() {
     try {
       const config = await dao.findOne(dao.db.config);
+      config.firebasePassword = utils.decrypt(config.firebasePassword);
       utils.setCurrentConfig(config || {});
     } catch (err) {
       console.log(err);

@@ -12,26 +12,29 @@ app.controller('config', function(dao, alert, utils) {
     vm.loadConfig = function() {
       var promise = dao.findOne(dao.db.config);
       promise.then(function(doc) {
-        const config = {...defaultConfig, ...doc};
+        let config = {...defaultConfig, ...doc};
+        config.firebasePassword = utils.decrypt(config.firebasePassword);
         vm.config = config;
+        utils.setCurrentConfig(config);
       }, function(err) {
         console.log(err);
       });
     };
   
     vm.saveConfig = function(config) {
-      if (config._id) {
-        vm.updateConfig(config);
+      const configToSave = {...config};
+      configToSave.firebasePassword = utils.encrypt(configToSave.firebasePassword);
+      if (configToSave._id) {
+        vm.updateConfig(configToSave);
       } else {
-        vm.insertConfig(config);
+        vm.insertConfig(configToSave);
       }
     };
   
     vm.insertConfig = function(config) {
       var promise = dao.insert(dao.db.config, config);
       promise.then(function(doc) {
-        vm.config = doc;
-        utils.setCurrentConfig(doc);
+        vm.loadConfig();
         alert.success("Configurações atualizadas.");
       }, function(err) {
         console.error(err);
@@ -42,8 +45,7 @@ app.controller('config', function(dao, alert, utils) {
     vm.updateConfig = function(config) {
       var promise = dao.update(dao.db.config, {_id: config._id}, config, false);
       promise.then(function(doc) {
-        vm.config = doc;
-        utils.setCurrentConfig(doc);
+        vm.loadConfig();
         alert.success("Configurações atualizadas.");
       }, function(err) {
         console.error(err);
