@@ -3,21 +3,16 @@ app.run(['$rootScope', 'navigator', 'dao', 'utils', 'users', 'alert',
   $rootScope.utils = utils;
   $rootScope.users = users;
 
-  loadConfig();
   redirectToSetupOrLogin();
-
-  async function loadConfig() {
-    try {
-      const config = await dao.findOne(dao.db.config);
-      config.firebasePassword = utils.decrypt(config.firebasePassword);
-      utils.setCurrentConfig(config || {});
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
   async function redirectToSetupOrLogin() {
     try {
+      const config = await dao.findOne(dao.db.config);
+      if (config && config.firebasePassword) {
+        config.firebasePassword = utils.decrypt(config.firebasePassword);
+      }
+      utils.setCurrentConfig(config || {});
+
       const count = await dao.count(dao.db.usuarios, {});
       if (count == 0) {
         users.useRoot();
