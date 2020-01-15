@@ -18,6 +18,11 @@ html body {
   width: 50px;
 }
 
+.navbar .nav.navbar-nav a {
+  padding-right: 11px;
+  padding-left: 11px;
+}
+
 a.credits {
   color: gray;
   padding-right: 24px;
