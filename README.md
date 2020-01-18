@@ -27,12 +27,12 @@ Now, run the following commands for each system and find the generated binaries 
 
 ### Linux
 
-`electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=icons/icon.png --prune=true --out=release`
+`electron-packager . --overwrite --platform=linux --arch=x64 --icon=icons/icon.png --prune=true --out=release`
 
 
 ### Windows
 
-`electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=icons/icon.ico --prune=true --out=release --version-string.CompanyName=Eliza --version-string.FileDescription=Eliza --version-string.ProductName="Eliza"`
+`electron-packager . --overwrite --platform=win32 --arch=ia32 --icon=icons/icon.ico --prune=true --out=release --version-string.CompanyName=Eliza --version-string.FileDescription=Eliza --version-string.ProductName="Eliza"`
 
 ## License
 
