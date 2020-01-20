@@ -28,6 +28,9 @@ function createWindow() {
     },
   });
 
+  // hides the default menu bar
+  mainWindow.setMenu(null);
+
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'app.html'),
