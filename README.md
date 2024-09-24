@@ -1,8 +1,27 @@
 # Eliza
 
-**School management software.** 
+## School Management Software
 
-This is a cross-platform desktop app, created using the following technologies: 
+![Eliza: Agenda](/docs/eliza1.png "Eliza: Agenda")
+
+Software para gerenciamento de escolas, incluindo agenda; cadastro de alunos, professores e cursos; efetuação de matrículas; recebimento de pagamentos e relatórios.
+
+![Eliza: Alunos](/docs/eliza2.png "Eliza: Alunos")
+![Eliza: Cursos](/docs/eliza3.png "Eliza: Cursos")
+![Eliza: Pagamentos](/docs/eliza4.png "Eliza: Pagamentos")
+![Eliza: Relatórios](/docs/eliza5.png "Eliza: Relatórios")
+
+Dados são persistidos apenas localmente. Opcionalmente, você pode configurar backups na nuvem (Firebase).
+
+![Eliza: Firebase](/docs/eliza6.png "Eliza: Firebase")
+
+Ao executar a aplicação pela primeira vez, você poderá criar os dados de login com permissões de admin e, em seguida, definir os demais usuários.
+
+![Eliza: Login](/docs/eliza7.png "Eliza: Login")
+
+## Electron
+
+This is a cross-platform desktop app, created using the following technologies:
 
 - [Electron](https://electronjs.org/)
 - [Node.js](https://nodejs.org/en/)
@@ -29,13 +48,10 @@ Now, run the following commands for each system and find the generated binaries 
 
 `electron-packager . --overwrite --platform=linux --arch=x64 --icon=icons/icon.png --prune=true --out=release`
 
-
 ### Windows
 
 `electron-packager . --overwrite --platform=win32 --arch=ia32 --icon=icons/icon.ico --prune=true --out=release --version-string.CompanyName=Eliza --version-string.FileDescription=Eliza --version-string.ProductName="Eliza"`
 
 ## License
 
-This software was based on the [electron-quick-start](https://github.com/electron/electron-quick-start) project, available within the Electron documentation.
-
-#### License [CC0 1.0 (Public Domain)](LICENSE.md)
+MIT 2016

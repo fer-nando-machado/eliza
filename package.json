@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/fernandomachado90/eliza",
+  "repository": "https://github.com/fer-nando-machado/eliza",
   "keywords": [
     "Eliza"
   ],
